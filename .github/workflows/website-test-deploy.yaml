@@ -3,7 +3,7 @@ name: website-test-deployment
 on:
   pull_request:
     branches:
-      - gh-pages
+      - main
 
 jobs:
   test-deploy:
@@ -12,7 +12,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: docs
+        working-directory: website
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
@@ -25,3 +25,4 @@ jobs:
         run: npm ci
       - name: Test build website
         run: npm run build
+
