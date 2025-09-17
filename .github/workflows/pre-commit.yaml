@@ -3,7 +3,7 @@ name: pre-commit
 on:
   pull_request:
   push:
-    branches: [gh-pages]
+    branches: [main]
 
 jobs:
   pre-commit:
@@ -24,3 +24,4 @@ jobs:
       - name: install trufflehog
         run: curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b /usr/local/bin
       - uses: pre-commit/action@v3.0.1
+
