@@ -42,7 +42,7 @@ This repository strive to go further and help customers setup the additional sof
 AI on Sagemaker Hyperpod is maitained by the AWS ML Frameworks team and is not an AWS service. Support is provided on a best effort basis by the AI on Sagemaker Hyperpod community. If you have feedback, feature ideas, or wish to report bugs, please use the [Issues](https://awslabs.github.io/awslabs/ai-on-sagemaker-hyperpod) section of this Github.
 
 ## Security
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notification) for more information.
+See [CONTRIBUTING](https://awslabs.github.io/ai-on-sagemaker-hyperpod/CONTRIBUTING.md#security-issue-notification) for more information.
 
 ## License 
 This library is licensed under the Apache 2.0 License.
