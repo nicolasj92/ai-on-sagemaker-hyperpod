@@ -15,15 +15,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://awslabas.github.io/',
+  url: 'https://awslabs.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/ai-on-sagemaker-hyperpod',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'awslabs', // Usually your GitHub org/user name.
-  projectName: 'ai-on-sagemaker-hyperpod', // Usually your repo name.
+  organizationName: 'awslabs', // Usually your GitHub org/user name. Approved org: awslabs.
+  projectName: 'ai-on-sagemaker-hyperpod', // Usually your repo name. 
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
