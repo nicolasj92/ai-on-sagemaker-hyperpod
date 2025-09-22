@@ -1,5 +1,5 @@
 ---
-title: Accessing the cluster
+title: Reviewing the cluster console
 sidebar_position: 2
 ---
 
