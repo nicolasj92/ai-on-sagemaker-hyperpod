@@ -36,7 +36,7 @@ sky check k8s
 
 The output should look similar to:
 
-![Verify SkyPilot's Connection to the Cluster](/static/images/skypilot/sky_check.png)
+![Verify SkyPilot's Connection to the Cluster](/img/skypilot/sky_check.png)
 
 If this is your first time using SkyPilot with this Kubernetes cluster, you may see a hint to create GPU labels for your nodes. Follow the instructions by running:
 
@@ -56,7 +56,7 @@ sky show-gpus --cloud k8s
 
 This will list all available GPU types and their counts:
 
-![Available GPUs](/static/images/skypilot/sky_show.png)
+![Available GPUs](/img/skypilot/sky_show.png)
 
 ## Using SkyPilot interactively
 
@@ -70,7 +70,7 @@ sky launch -c dev --gpus H100
 
 This command creates a development environment named "dev" with a single H100 GPU. SkyPilot handles the pod creation, resource allocation, and setup of the development environment.
 
-![Interactive Mode](/static/images/skypilot/sky_interactive.png)
+![Interactive Mode](/img/skypilot/sky_interactive.png)
 
 
 Once launched, you can connect to your development environment:
@@ -81,7 +81,7 @@ ssh dev
 
 This gives you an interactive shell in your development environment, where you can run your code, install packages, and perform ML experiments.
 
-![SkyPilot interactive](/static/images/skypilot/sky_ssh.png)
+![SkyPilot interactive](/img/skypilot/sky_ssh.png)
 
 ## Launching training jobs using SkyPilot
 

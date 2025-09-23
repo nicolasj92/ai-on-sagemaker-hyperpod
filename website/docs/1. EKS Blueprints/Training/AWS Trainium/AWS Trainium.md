@@ -37,7 +37,7 @@ git clone https://github.com/aws-samples/awsome-distributed-training/
 cd awsome-distributed-training/3.test_cases/pytorch/neuronx-distributed/llama3/kubernetes
 ```
 
-We will build docker image using the [Dockerfile](Dockerfile) in this directory.  
+We will build docker image using the [Dockerfile](/docs/EKS%20Blueprints/Integrations/SkyPilot) in this directory.  
 
 ```sh
 export AWS_REGION=$(aws ec2 describe-availability-zones --output text --query 'AvailabilityZones[0].[RegionName]')
@@ -49,7 +49,7 @@ docker build $DOCKER_NETWORK -t ${REGISTRY}${IMAGE}${TAG} .
 ```
 ::::alert{type="info"}
 :::expand{header="Why $DOCKER_NETWORK?" defaultExpanded=false}
-The environment variable`$DOCKER_NETWORK` is set to `--network=sagemaker` only if you deployed the SageMaker Studio Code Editor CloudFormation stack in the [Set Up Your Development Environment](/00-setup/own-account/01-env-setup.md) section. This is necessary because SageMaker Studio uses a specific network configuration for its containers. Otherwise, it remains unset. 
+The environment variable`$DOCKER_NETWORK` is set to `--network=sagemaker` only if you deployed the SageMaker Studio Code Editor CloudFormation stack in the [Set Up Your Development Environment](/docs/category/getting-started) section. This is necessary because SageMaker Studio uses a specific network configuration for its containers. Otherwise, it remains unset. 
 :::
 :::::
 
