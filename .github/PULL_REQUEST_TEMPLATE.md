@@ -1,7 +1,7 @@
 ### What does this PR do?
 
 🛑 Please open an issue first to discuss any significant work and flesh out details/direction. When we triage the issues, we will add labels to the issue like "Enhancement", "Bug" which should indicate to you that this issue can be worked on and we are looking forward to your PR. We would hate for your time to be wasted.
-Consult the [CONTRIBUTING](https://github.com/awslabs/ai-on-eks/blob/main/CONTRIBUTING.md#contributing-via-pull-requests) guide for submitting pull-requests.
+Consult the [CONTRIBUTING](https://github.com/awslabs/ai-on-sagemaker-hyperpod/blob/main/CONTRIBUTING.md#contributing-via-pull-requests) guide for submitting pull-requests.
 
 <!-- A brief description of the change being made with this pull request. -->
 
