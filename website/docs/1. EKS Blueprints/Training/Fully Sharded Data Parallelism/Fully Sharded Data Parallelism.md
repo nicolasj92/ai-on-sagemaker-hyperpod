@@ -260,7 +260,7 @@ kubectl delete -f ./fsdp.yaml
 ## Start training with the Hyperpod CLI
 
 :::::alert{header="Note:"}
-This page shows how to run the sample application with HyperPod CLI, instead of `kubectl`. If you didn't install the HyperPod CLI, see the [Install HyperPod CLI](/docs/Getting%20Started/Installing%20the%20Hyperpod%20CLI) page.
+This page shows how to run the sample application with HyperPod CLI, instead of `kubectl`. If you didn't install the HyperPod CLI, see the [Install HyperPod CLI](/docs/add-ons/installing-the-hyperpod-cli) page.
 :::::
 
 

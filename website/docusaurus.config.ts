@@ -71,6 +71,12 @@ const config: Config = {
   ],
 
   themeConfig: {
+    docs: {
+      sidebar: {
+        hideable: true, // allow better focus on content on smaller screen sizes (ex: tablet, phones)
+        autoCollapseCategories: true, // hide categories which are not focused on
+      }
+    },
     metadata: [
       { name: 'keyworkds', 
         content: 'machine learning, generative ai, genai, sagemaker, hyperpod, sagemaker hyperpod, \
@@ -115,16 +121,11 @@ const config: Config = {
           items: [
             {
               label: 'Orchestrated by EKS',
-              to: '/docs/Getting%20Started/Orchestrated%20by%20EKS/Initial%20Cluster%20Setup',
+              to: '/docs/getting-started/orchestrated-by-eks/initial-cluster-setup',
             },
-          ],
-        },
-        {
-          title: 'Docs',
-          items: [
             {
               label: 'Orchestrated by SLURM',
-              to: '/docs/Getting%20Started/Orchestrated%20by%20SLURM/Initial%20Cluster%20Setup',
+              to: '/docs/getting-started/orchestrated-by-slurm/initial-cluster-setup',
             },
           ],
         },
