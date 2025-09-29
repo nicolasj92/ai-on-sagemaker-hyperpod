@@ -29,14 +29,46 @@ Once a model is selected, click the 'Deploy' button to bring up the deployment o
 
 From here, you can configure your deployment configuration for HyperPod, including the name, instance type, hyperpod cluster, namespace and scaling.
 
+HyperPod cluster: `Name of your cluster`
+Instance type: `example- ml.g5.8xlarge`
+Namespace: `enter namespace`
+Priority class: `Select Priority class - inference-priority`
+Autoscaling: `Enabled`, max replicas set to `2- number of replicas`
+
 <div style={{ textAlign: 'center' }}>
 ![Options](/img/07-inference/jumpstart-ui/options.png)
 </div>
-The UI will then show you the deployment status. Once the deployment is complete, you can test the deployment from the SageMaker Studio UI with JSON data.
 
+Please press `Deploy`.
+
+One can see the deployment pod initializing:
+```bash
+kubectl get pods -n hyperpod-ns-team-a
+```
+```bash
+NAME                                                 READY   STATUS            RESTARTS   AGE
+hyperpod-deployment-1X5X021XXXXX-7b7bxxxxxx-2XXX   0/3     PodInitializing   0   
+```
+If you go back to SageMaker Studio and on the left-hand side, select `Deployments` and select `Endpoints`. You can see the SageMaker endpoint to host your model being created.
+<div style={{ textAlign: 'center' }}>
+![Options](/img/07-inference/jumpstart-ui/deployments.png)
+</div>
+
+Once the deployment status is In service, you can test the deployment from the SageMaker Studio UI with JSON data.
+
+Select your endpoint, and select the `Test inference` tab.
+
+Paste the following in the JSON body:
+```json
+{
+    "inputs": "Hi, what can you help me with?"
+}
+```
 <div style={{ textAlign: 'center' }}>
 ![Options](/img/07-inference/jumpstart-ui/test-invoke.png)
 </div>
+
+
 
 ## Deploy models from SageMaker JumpStart using kubectl
 
@@ -80,7 +112,8 @@ Once the model is deployed, you can invoke the SageMaker Endpoint that is create
 
 For example, using boto3, this would be:
 
-```
+```python
+cat << EOF > invoke.py
 import boto3
 import json
 
@@ -96,4 +129,16 @@ response = client.invoke_endpoint(
 )
 
 print(response['Body'].read().decode('utf-8'))
+```
+Invoke the model using boto3:
+```bash
+
+python3 invoke.py
+```
+
+Output:
+```text
+sagemaker-user@default:~/awsome-distributed-training/1.architectures/7.sagemaker-hyperpod-eks/task-governance$ python3 invoke.py
+[{"generated_text":"Hi, what can you help me with?\n\nWelcome! I'm here to help you with a variety of topics. Here's a list of some things I can assist with:\n\n* Coding questions and problems\n* Computer Science concepts and algorithms\n* Technical interview questions and solutions\n* Debugging code\n* Learning resources\n* Personalized study and practice plans\n* Coding tips and best practices\n* Project management for coding projects\n* Tech news and trends\n\nIf you have a specific question or"}]
+sagemaker-user@default:~/awsome-distributed-training/1.architectures/7.sagemaker-hyperpod-eks/task-governance$ 
 ```
