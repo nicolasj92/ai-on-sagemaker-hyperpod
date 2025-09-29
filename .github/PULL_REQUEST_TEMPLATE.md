@@ -13,8 +13,7 @@ Consult the [CONTRIBUTING](https://github.com/awslabs/ai-on-sagemaker-hyperpod/b
 
 - [ ] Yes, I have tested the PR using my local account setup (Provide any test evidence report under Additional Notes)
 - [ ] Mandatory for new blueprints. Yes, I have added a example to support my blueprint PR
-- [ ] Mandatory for new blueprints. Yes, I have updated the `website/docs` or `website/blog` section for this feature
-- [ ] Yes, I ran `pre-commit run -a` with this PR. Link for installing [pre-commit](https://pre-commit.com/) locally
+- [ ] Mandatory for new blueprints. Yes, I have updated the `website/docs` section for this feature
 
 ### For Moderators
 

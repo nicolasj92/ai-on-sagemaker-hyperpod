@@ -16,15 +16,17 @@ There are troubleshooting advise on specific problems you may find, best practic
 > **Note:** AI On Sagemaker Hyperpod is an active development. For upcoming features and enhancements, please check out the [issues](https://github.com/awslabas/ai-on-sagemaker-hyerpod/issues) section.
 
 ## Examples provided
-Those are the examples you can find on this project: 
-- [Running a Fully Sharded Data Parallel training example on multiple GPUs](https://awslabs.github.io/ai-on-sagemaker-hyperpod/FSDP/)
-- [Running a Distributed Data Parallel training example using CPU only](https://awslabs.github.io/ai-on-sagemaker-hyperpod/FSDP/)
-- [Using AWS Trainium chips to train your generative AI models](https://awslabs.github.io/ai-on-sagemaker-hyperpod/AWS-chips/Trainium)
-- [Using Ray to run your large distributed training job](https://awslabs.github.io/ai-on-sagemaker-hyerpod/Ray/)
-- [Using the Training Operator with Hyperpod](https://awslabs.github.io/ai-on-sagemaker-hyperpod/tips-and-tricks/tips-and-tricks/training-operator)
-- [Creating a hybrid infrastructure using SkyPilot](https://awslabs.github.io/ai-on-sagemaker-hyperpod/SkyPilot/)
-- [Setting up Task Governance and Task Affinity for improved cluster governance and utlization](https://awslabas.github.io/ai-on-sagemaker-hyperpod/governance/)
-- [Deploying your models for inference](https://awslabs.github.io/ai-on-sagemaker-hyperpod/inference)
+Those are some examples you can find on this project, using the EKS orchestration:
+- [Running a Fully Sharded Data Parallel training example on multiple GPUs](https://awslabs.github.io/ai-on-sagemaker-hyperpod/docs/eks-blueprints/training/fsdp/fully-sharded-data-parallel)
+- [Running a Distributed Data Parallel training example using CPU only](https://awslabs.github.io/ai-on-sagemaker-hyperpod/docs/eks-blueprints/training/ddp/distributed-data-parallel)
+- [Using AWS Trainium chips to train your generative AI models](https://awslabs.github.io/ai-on-sagemaker-hyperpod/Adocs/eks-blueprints/training/trainium/aws-trainium)
+- [Using Ray to run your large distributed training job](https://awslabs.github.io/ai-on-sagemaker-hyerpod/docs/eks-blueprints/training/ray-train)
+- [Using the Training Operator with Hyperpod](https://awslabs.github.io/ai-on-sagemaker-hyperpod/docs/add-ons/training-operator)
+- [Creating a hybrid infrastructure using SkyPilot](https://awslabs.github.io/ai-on-sagemaker-hyperpod/docs/add-ons/integrations/skypilot)
+- [Setting up Task Governance and Task Affinity for improved cluster governance and utlization](https://awslabas.github.io/ai-on-sagemaker-hyperpod/docs/add-ons/Task%20Governance/Task%20Governance%20for%20Training)
+- [Deploying your models for inference](https://awslabs.github.io/ai-on-sagemaker-hyperpod/docs/eks-blueprints/inference/inference-operator/amazon-s3-and-amazon-fsx)
+
+You can also find examples using the SLURM orchestration, on the website.
 
 ## Getting Started
 Before delighting yourself with the features and examples provided here, we suggest you work through the setup of your Sagemaker Hyperpod cluster. On that initial step, we provide examples on how to do it using different methods (GUI, CLI scripts, Infrastructure as a Code - IaC, etc). After the deploying, we recommend running a few basic tests to validate you have a working cluster running as expected.
