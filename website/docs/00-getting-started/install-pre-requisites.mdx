@@ -1,7 +1,6 @@
----
-title: Installing the required tools
-sidebar_position: 1
----
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'; 
 
 # Installing the required tools
 
@@ -9,37 +8,34 @@ To create and operate your Amazon Sagemaker Hyperpod cluster, you will need to h
 
 ::::expand{header="Install the AWS CLI" defaultExpanded=false}
 
-:::alert{header="Note:"}
+:::note
 The AWS CLI comes pre-installed on AWS CloudShell.
 :::
 
 Install the latest version of the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html), you'll need version `2.17.47` as a minimum to run the SageMaker HyperPod commands:
 
-::::tabs{variant="container" activeTabId="Linux_x86_64"}
-
-:::tab{id="Linux_x86_64" label="Linux (x86_64)"}
-```bash
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install --update
-```
-:::
-
-:::tab{id="Linux_arm64" label="Linux (arm64)"}
-```bash
-curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-```
-:::
-
-:::tab{id="macOS" label="macOS (x86_64 and arm64)"}
-```bash
-curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-sudo installer -pkg AWSCLIV2.pkg -target /
-```
-:::
-::::
+<Tabs>
+    <TabItem value="linux" label="Linux_x86_64">
+        ```bash
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install --update
+        ```
+    </TabItem>
+    <TabItem value="linux-arm" label="Linux_ARM64">
+        ```bash
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        ```
+    </TabItem>
+    <TabItem value="macos" label="MacOS">
+        ```bash
+        curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+        sudo installer -pkg AWSCLIV2.pkg -target /
+        ```
+    </TabItem>
+</Tabs>
 
 ::::expand{header="Install kubectl" defaultExpanded=false}
 :::alert{header="Note:"}
@@ -90,3 +86,4 @@ chmod 700 get_helm.sh
 ::::expand{header="Install Terraform" defaultExpanded=false}
 If you plan to [use Terraform](/docs/infrastructure-as-a-code/terraform/) to deploy the workshop infrastructure, see the [Terraform documentation](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) for instillation instructions. 
 ::::
+
