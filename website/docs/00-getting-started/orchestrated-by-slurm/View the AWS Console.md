@@ -14,11 +14,11 @@ Now that we've created a cluster, we can monitor the status in the [SageMaker co
 
 2. You'll see your cluster listed, click on it:
 
-    ![Console Screenshot](/img/01-cluster/console.png)
+    ![Console Screenshot](/img/01-cluster/console-6.png)
 
 3. On the next page you'll see the details about the cluster:
 
-    ![Console Screenshot](/img/01-cluster/console-2.png)
-    ![Console Screenshot](/img/01-cluster/console-3.png)
+    ![Console Screenshot](/img/01-cluster/console-4.png)
+    ![Console Screenshot](/img/01-cluster/console-5.png)
 
 Wait until your cluster status changes to **InService** before proceeding. This should take ~10 minutes.
