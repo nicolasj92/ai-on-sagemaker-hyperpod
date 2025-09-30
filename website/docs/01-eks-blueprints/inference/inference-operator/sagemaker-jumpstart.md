@@ -29,11 +29,11 @@ Once a model is selected, click the 'Deploy' button to bring up the deployment o
 
 From here, you can configure your deployment configuration for HyperPod, including the name, instance type, hyperpod cluster, namespace and scaling.
 
-HyperPod cluster: `Name of your cluster`
-Instance type: `example- ml.g5.8xlarge`
-Namespace: `enter namespace`
-Priority class: `Select Priority class - inference-priority`
-Autoscaling: `Enabled`, max replicas set to `2- number of replicas`
+- HyperPod cluster: `Name of your cluster`
+- Instance type: example/ `ml.g5.8xlarge`
+- Namespace: example/ `default`
+- Priority class: example/ `inference-priority` - This is created from the task governance cluster scheduler config
+- Autoscaling: This can be toggled to `Enabled`, allowing pod-level autoscaling
 
 <div style={{ textAlign: 'center' }}>
 ![Options](/img/07-inference/jumpstart-ui/options.png)
@@ -132,7 +132,6 @@ print(response['Body'].read().decode('utf-8'))
 ```
 Invoke the model using boto3:
 ```bash
-
 python3 invoke.py
 ```
 

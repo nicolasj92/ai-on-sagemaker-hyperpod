@@ -1,14 +1,18 @@
 
 # Deploying model from S3 or FSX
 
-You can deploy model artifacts directly from S3 or FSX to your HyperPod cluster using the InferenceEndpointConfig resource. The inference operator will use the S3 CSI driver to provide the model files to the pods in the cluster. Using this configuration the operator will download the files located under the prefix deepseek15b as set by the modelLocation parameter.
+You can deploy model artifacts directly from S3 or FSX to your HyperPod cluster using the InferenceEndpointConfig resource. The inference operator will use the S3 CSI driver to provide the model files to the pods in the cluster. Using this configuration, the operator will download the files located under the prefix `deepseek15b` as set by the `modelLocation` parameter.
 
-## Example - Deploy models from S3 bucket or FSX ID using kubectl
-Prequisite: 
-* Clone the repository https://github.com/aws-samples/sagemaker-genai-hosting-examples/tree/main
-* Open the directory under sagemaker-genai-hosting-examples/SageMakerHyperPod/hyperpod-inference
+## Prerequisite
+1. Clone the repository [sagemaker-genai-hosting-examples](https://github.com/aws-samples/sagemaker-genai-hosting-examples/tree/main) and open the directory under sagemaker-genai-hosting-examples/SageMakerHyperPod/hyperpod-inference
 
-## Reploy the model
+``` bash
+git clone https://github.com/aws-samples/sagemaker-genai-hosting-examples.git
+cd sagemaker-genai-hosting-examples/SageMakerHyperPod/hyperpod-inference
+```
+
+
+## Deploy the model
 
 1. Prepare model artifacts
 
@@ -19,14 +23,40 @@ You can upload the DeepSeek Qwen 1.5b artifacts to your S3 bucket or FSX ID, bel
 ```bash
 s3_bucket=<bucket_name>
 aws s3 sync s3://jumpstart-cache-prod-us-east-2/deepseek-llm/deepseek-llm-r1-distill-qwen-1-5b/artifacts/inference-prepack/v2.0.0 s3://$s3_bucket/deepseek15b
-
 ```
-###### OR copy the model in FSX mount
-```bash
-aws s3 sync s3://jumpstart-cache-prod-us-east-2/deepseek-llm/deepseek-llm-r1-distill-qwen-1-5b/artifacts/inference-prepack/v2.0.0 /fsx
+Alternatively, you can copy the model to FSxL by creating a job pod with the FSX PVC mounted:
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: copy-model-to-fsx
+spec:
+  template:
+    spec:
+      containers:
+      - name: aws-cli
+        image: amazon/aws-cli:latest
+        command: ["/bin/bash"]
+        args: 
+        - -c
+        - |
+          aws s3 sync s3://jumpstart-cache-prod-us-east-2/deepseek-llm/deepseek-llm-r1-distill-qwen-1-5b/artifacts/inference-prepack/v2.0.0 /fsx/deepseek15b
+        volumeMounts:
+        - name: fsx-storage
+          mountPath: /fsx
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: "us-east-1"  # Replace with your region
+      volumes:
+      - name: fsx-storage
+        persistentVolumeClaim:
+          claimName: fsx-claim
+      restartPolicy: Never
+  backoffLimit: 3
 ```
 
-2. Then in the `deploy_S3_inference_operator.yaml` or `deploy_fsx_lustre_inference_operator.yaml` we configure our S3 bucket |FSX ID as the `s3Storage:bucketName` or `fsxStorage:fileSystemId`.
+2. Then in the `deploy_S3_inference_operator.yaml` or `deploy_fsx_lustre_inference_operator.yaml` we configure our S3 bucket/FSx ID as the `s3Storage:bucketName` or `fsxStorage:fileSystemId`.
 
 ```yaml
 spec:
@@ -39,7 +69,7 @@ spec:
     s3Storage:
       bucketName: <bucket name>
 ```
-###### OR for FSX use 
+Or for FSxL use 
 ```yaml
 spec:
   endpointName: deepseek15b
@@ -58,7 +88,7 @@ spec:
 ```bash
 kubectl apply -f deploy_S3_inference_operator.yaml 
 ```
-###### OR
+Or
 ```bash
 kubectl apply -f deploy_fsx_inference_operator.yaml 
 ```
