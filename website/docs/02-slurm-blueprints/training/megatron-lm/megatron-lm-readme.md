@@ -25,7 +25,7 @@ We describe the steps below for Slurm users running on a Nvidia GPU.
 This guide assumes that you've [built a SageMaker HyperPod Slurm cluster](/docs/getting-started/orchestrated-by-slurm/initial-cluster-setup) with GPU instances i.e. g5/p4d/p5 instance types. Please make sure you have the following before getting started:
 
 - A Slurm cluster on AWS using Nvidia GPU's i.e. `g5`, `p4d` or `p5`.
-- Docker, [Pyxis](https://github.com/NVIDIA/pyxis) and [Enroot](https://github.com/NVIDIA/enroot) installed. This is installed by default in the [lifecycle scripts](/01-cluster/03-s3)
+- Docker, [Pyxis](https://github.com/NVIDIA/pyxis) and [Enroot](https://github.com/NVIDIA/enroot) installed. This is installed by default in the [lifecycle scripts](https://github.com/aws-samples/awsome-distributed-training/tree/main/1.architectures/5.sagemaker-hyperpod/LifecycleScripts/base-config/utils)
 - An FSx for Lustre filesystem mounted on `/fsx`.
 
 If you completed [Cluster Setup](/docs/getting-started/orchestrated-by-slurm/initial-cluster-setup) using a Nvidia GPU config these steps are complete.
