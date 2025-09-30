@@ -32,9 +32,9 @@ aws eks create-addon --addon-name amazon-cloudwatch-observability --cluster-name
 ```
 
 After the installation, the Amazon CloudWatch Observability will show in EKS cluster console under the Add-ons tab with status Active as shown below 
-
+<div className="text--center"> 
 ![import grafana dashboard](/img/06-observability/addon-eks.png)
-
+</div>
 
 3. Check if cloudwatch-agent and fluent-bit pods are running on EKS cluster under namespace amazon-cloudwatch using kubectl as shown below.
 
@@ -43,9 +43,9 @@ kubectl get pods -n amazon-cloudwatch
 ```
 
 Your output should be similar to the one below.
-
+<div className="text--center"> 
 ![import grafana dashboard](/img/06-observability/amazon-cloudwatch-pods.png)
-
+</div>
 That’s it! CloudWatch Container Insights will now be enabled for your EKS cluster. You can access the dashboard in CloudWatch console under Container Insights.
 
 ### Container Insights Dashboards
@@ -53,9 +53,9 @@ That’s it! CloudWatch Container Insights will now be enabled for your EKS clus
 Once enabled, enhanced container insights page looks like below from AWS console, with the high level summary of your clusters, kube-state and control-plane metrics. The Container Insights dashboard shows cluster status and alarms. It uses predefined thresholds for CPU and memory to quickly identify which resources are having higher consumption, and enabling proactive actions to avoid performance impact.
 
 Below is the architecture diagram that shows the components that are involved in collecting logs and metrics from your EKS environment.
-
+<div className="text--center"> 
 ![Container insights architecture](/img/06-observability/cinsights-arch.png)
-
+</div>
 ### Using the console to check insights
 
 #### Viewing cluster resources
@@ -68,9 +68,9 @@ Below is the architecture diagram that shows the components that are involved in
 
 
 You should be able to see something like below 
-
+<div className="text--center"> 
 ![Container insights dashboard](/img/06-observability/cinsights-base.png)
-
+</div>
 
 This monitoring dashboard provides various views to analyze performance, including:
 
@@ -99,16 +99,16 @@ Also you can look at different graphs / metrics like GPU, EFA , CPU, Network uti
 ### GPU Utilization and GPU Memory
 
 We can look at both pod level and node level GPU metrics. Once you scroll on the dashboard you should be able to see something like below. 
-
+<div className="text--center"> 
 ![Container insights GPU metrics](/img/06-observability/cinsights-gpu.png)
-
+</div>
 
 ### EFA metrics 
 
 Similarly we can look EFA metrics including the network and RDMA bytes recieved.
-
+<div className="text--center"> 
 ![Container insights EFA metrics](/img/06-observability/cinsights-efa.png)
-
+</div>
 ### Access CloudWatch container insights logs
 
 Go to the CloudWatch console, and log groups.
