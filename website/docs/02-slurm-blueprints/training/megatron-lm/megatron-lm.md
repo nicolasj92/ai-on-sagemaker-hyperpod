@@ -1,7 +1,7 @@
 ---
 tile: NVIDIA Megratron-LM
 sidebar_position: 1
-sidebar_titel: NVIDIA Megatron-LM
+sidebar_title: NVIDIA Megatron-LM
 ---
 
 # NVIDIA Megatron-LM
@@ -243,3 +243,4 @@ nvidia-smi
 You'll see very little usage of the GPU's for the first few minutes as it sets up the case, then you'll see constant usage after that:
 
 ![Nvidia-smi](/img/04-megatron-lm/nvidia-smi.png)
+
