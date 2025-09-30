@@ -126,11 +126,11 @@ const config: Config = {
               label: 'Fully Sharded Data Parallel',
             },
             {
-              to: '/docs/eks-blueprints/training/megatron-lm', 
+              to: '/docs/eks-blueprints/training/megatron-lm/megatron-lm-readme', 
               label: 'NVIDIA Megatron LM',
             },
             {
-              to: '/docs/eks-blueprints/training/ray-train', 
+              to: '/docs/eks-blueprints/training/ray-train/ray-train-readme', 
               label: 'Ray Train',
             },
           ],
@@ -157,7 +157,7 @@ const config: Config = {
               label: 'Fully Sharded Data Parallel',
             },
             {
-              to: '/docs/slurm-blueprints/training/megatron-lm', 
+              to: '/docs/slurm-blueprints/training/megatron-lm/megatron-lm-readme', 
               label: 'NVIDIA Megatron LM',
             },
             {

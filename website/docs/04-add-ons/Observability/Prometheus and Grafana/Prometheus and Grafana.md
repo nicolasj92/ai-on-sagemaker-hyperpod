@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# One-Click Observability with Amazon Managed Grafana and Amazon Managed Service for Prometheus
+# One-Click Observability with Amazon Managed Grafana and Amazon Managed Prometheus
 Amazon SageMaker HyperPod (SageMaker HyperPod) provides a comprehensive, out-of-the-box dashboard that gives you insights into foundation model (FM) development tasks and cluster resources.
 
 This unified observability solution automatically publishes key metrics to Amazon Managed Service for Prometheus and displays them in Amazon Managed Grafana dashboards. The dashboards are optimized specifically for FM development with deep coverage of hardware health, resource utilization, and task-level performance. With this add-on, you can consolidate health and performance data from NVIDIA DCGM, instance-level Kubernetes node exporters, Elastic Fabric Adapter, integrated file systems, Kubernetes APIs, Kueue, and SageMaker HyperPod task operators.
@@ -15,6 +15,13 @@ To get started with SageMaker HyperPod observability, you first need to enable [
 ![Enable-IAM-Identity-Center](/img/06-observability/identity-center-enable.png)
 </div>
 Additionally, create at least one user in the IAM Identity Center.
+
+:::warning[Disclaimer]
+HyperPod Slurm Observability CloudFormation is currently pending and not yet available.
+:::
+:::note
+The following is for SageMaker Hyperpod EKS instructions
+:::
 
 **Have a SageMaker HyperPod EKS cluster pre-deployed!**
 
@@ -62,7 +69,7 @@ On there, navigate to "AWS IAM Identity Center (successor to AWS SSO), and add y
 ![Enable-IAM-Identity-Center](/img/06-observability/setup-iam-user-grafana.png)
 </div>
 :::
-You should now have the dashboards accessible! See [What Dashboards can I access?](docs/add-ons/Observability/Prometheus%20and%20Grafana#what-dashboards-can-i-access). 
+You should now have the dashboards accessible! See [What Dashboards can I access?](/docs/add-ons/Observability/Prometheus%20and%20Grafana#what-dashboards-can-i-access). 
 
 ### [Advanced Setup] Enable SageMaker HyperPod Observability
 The [Quick installation](/docs/add-ons/Observability/Prometheus%20and%20Grafana#easy-setup-enable-sagemaker-hyperpod-observability) option will create a new workspace for Prometheus and Grafana and select default metrics. If you want to reuse an existing workspace, select additional metrics, or enable Pod logging to Amazon CloudWatch Logs, use the Custom installation option. This page describes the process to enable these. 
