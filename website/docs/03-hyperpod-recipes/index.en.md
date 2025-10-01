@@ -1,5 +1,5 @@
 ---
-title: "SageMaker HyperPod Slurm recipes (p5/trn)"
+title: "SageMaker HyperPod Recipes Overview"
 sidebar_position: 1
 weight: 110
 ---

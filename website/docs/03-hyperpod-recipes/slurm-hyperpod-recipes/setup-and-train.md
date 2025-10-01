@@ -1,5 +1,5 @@
 ---
-title: "Setup and Launch training"
+title: "Setup and Launch training - Slurm"
 sidebar_position: 2
 weight: 71
 ---
