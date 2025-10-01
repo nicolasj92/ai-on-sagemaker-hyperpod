@@ -1,5 +1,5 @@
 ---
-title: Amazon Sagemaker Hyperpod Recipes
+title: Setup and Launch training - EKS
 sidebar_position: 1
 ---
 # Install and use the Hyperpod CLI
