@@ -72,10 +72,10 @@ On there, navigate to "AWS IAM Identity Center (successor to AWS SSO), and add y
 ![Enable-IAM-Identity-Center](/img/06-observability/setup-iam-user-grafana.png)
 </div>
 :::
-You should now have the dashboards accessible! See [What Dashboards can I access?](/docs/add-ons/Observability/Prometheus%20and%20Grafana#what-dashboards-can-i-access). 
+You should now have the dashboards accessible! See [What Dashboards can I access?](/docs/add-ons/Observability/one-click-observability-eks#what-dashboards-can-i-access). 
 
 ### [Advanced Setup] Enable SageMaker HyperPod Observability
-The [Quick installation](/docs/add-ons/Observability/Prometheus%20and%20Grafana#easy-setup-enable-sagemaker-hyperpod-observability) option will create a new workspace for Prometheus and Grafana and select default metrics. If you want to reuse an existing workspace, select additional metrics, or enable Pod logging to Amazon CloudWatch Logs, use the Custom installation option. This page describes the process to enable these. 
+The [Quick installation](/docs/add-ons/Observability/one-click-observability-eks#easy-setup-enable-sagemaker-hyperpod-observability) option will create a new workspace for Prometheus and Grafana and select default metrics. If you want to reuse an existing workspace, select additional metrics, or enable Pod logging to Amazon CloudWatch Logs, use the Custom installation option. This page describes the process to enable these. 
 
 
 #### Enabling additional metrics

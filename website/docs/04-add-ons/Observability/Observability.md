@@ -13,8 +13,8 @@ Amazon SageMaker HyperPod can optionally be integrated with [Amazon Managed Prom
 
 In this section, we will specifically cover:
 
-1. Container Insights in Amazon CloudWatch (EKS only)
-2. AWS managed One-Click Observability with AMP and AMG (EKS only)
-3. SageMaker Managed MLFlow
-4. Weights & Biases
-5. Observability with AMP and AMG (Slurm only)
+1. [Container Insights in Amazon CloudWatch (EKS only)](/docs/add-ons/Observability/Container%20Insights)
+2. [AWS managed One-Click Observability with AMP and AMG (EKS only)](/docs/add-ons/Observability/one-click-observability-eks)
+3. [SageMaker Managed MLFlow](/docs/add-ons/Observability/MLFlow)
+4. [Weights & Biases](/docs/add-ons/Observability/Weights%20and%20Biases)
+5. [Observability with AMP and AMG (Slurm only)](/docs/add-ons/Observability/observability-slurm)
