@@ -31,7 +31,13 @@ Megatron-LM supports checkpoint parameters that enable automatic job recovery:
 
 ### Configure the Training Script
 
-1. Modify your `distributed-training.sbatch` script to include auto-resume and checkpointing:
+1. Let us go back to the megatron-lm example directory in the [awsome-distributed-training](https://github.com/aws-samples/awsome-distributed-training/tree/main/3.test_cases/megatron/megatron-lm/slurm/gpt3) repository to execute this. 
+
+```bash
+cd ~/awsome-distributed-training/3.test_cases/megatron/megatron-lm/slurm/gpt3
+```
+
+2. Modify your `2.distributed-training.sbatch` script to include auto-resume and checkpointing:
 
 ```bash
 # Add auto-resume flag to srun
@@ -89,7 +95,7 @@ Key additions:
 2. Submit the training job:
 
 ```bash
-sbatch distributed-training.sbatch
+sbatch 2.distributed-training.sbatch
 ```
 
 3. Monitor job progress by tailing the log file:
@@ -216,7 +222,9 @@ To manually replace a node, use the `scontrol` command:
 sudo scontrol update node=ip-10-1-57-141 state=down reason="Action:Replace"
 ```
 
+:::note Note
 Replace `ip-10-1-57-141` with the actual hostname of the node you want to replace.
+:::
 
 ### Monitor Replacement Process
 
@@ -268,7 +276,7 @@ srun -w ip-10-1-57-141 usermod -d /fsx/ubuntu ubuntu
 ssh ip-10-1-57-141
 ```
 
-:::note SSH Key Warning
+:::caution SSH Key Warning
 You may encounter a host key verification error because the new node uses the same hostname. Remove the old key:
 
 ```bash
@@ -286,19 +294,23 @@ Then SSH again to accept the new host key.
 4. **Resource Planning**: Account for temporary capacity reduction during node replacement
 5. **Testing**: Regularly test resiliency features in non-production environments
 
-## Troubleshooting
+<br/>
 
-### Job Not Resuming
+:::note Troubleshooting
+<br/>
+
+#### Job Not Resuming
 - Verify checkpoint files exist in the specified directory
 - Check Slurm logs for scheduling issues
 - Ensure replacement nodes have proper access to shared storage
 
-### Node Replacement Delays
+#### Node Replacement Delays
 - Check AWS service limits and capacity availability
 - Monitor CloudWatch logs for detailed error messages
 - Verify IAM permissions for node replacement operations
 
-### Checkpoint Corruption
+#### Checkpoint Corruption
 - Implement checkpoint validation in your training script
 - Use multiple checkpoint directories for redundancy
 - Monitor storage health and capacity
+:::
