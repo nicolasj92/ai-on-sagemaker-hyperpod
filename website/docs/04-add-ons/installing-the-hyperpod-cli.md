@@ -1,6 +1,6 @@
 ---
 title : Installing the Hyperpod CLI
-sidebar_position : 4
+sidebar_position : 6
 sidbar_title: Installing the Hyperpod CLI
 ---
 :::warning Under Maintenance
