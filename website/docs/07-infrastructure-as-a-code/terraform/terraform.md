@@ -345,7 +345,7 @@ aws ec2 describe-availability-zones --region us-west-2
 ### Getting Help
 
 - Review the [awsome-distributed-training repository](https://github.com/aws-samples/awsome-distributed-training) for updates
-- Check AWS documentation for SageMaker HyperPod
+- Check AWS documentation for [SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html)
 - Validate your configuration with `terraform plan` before applying
 
 The Terraform modules provide a robust, repeatable way to deploy SageMaker HyperPod infrastructure with best practices built-in.

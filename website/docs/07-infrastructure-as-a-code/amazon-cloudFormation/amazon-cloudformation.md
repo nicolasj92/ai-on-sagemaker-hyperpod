@@ -531,7 +531,7 @@ aws service-quotas get-service-quota \
 
 - Review CloudFormation events in the AWS Console
 - Check [awsome-distributed-training repository](https://github.com/aws-samples/awsome-distributed-training) for updates
-- Follow the official [SageMaker HyperPod Workshop](https://catalog.us-east-1.prod.workshops.aws/workshops/2433d39e-ccfe-4c00-9d3d-9917b729258e/en-US)
+
 
 ## Clean Up
 
