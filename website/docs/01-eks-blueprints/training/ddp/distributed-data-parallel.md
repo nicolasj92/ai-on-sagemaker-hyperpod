@@ -76,9 +76,12 @@ export REGISTRY=${ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/
 docker build $DOCKER_NETWORK -t ${REGISTRY}fsdp:pytorch2.2-cpu ..
 ```
 
-> **Why $DOCKER_NETWORK?**
-> 
-> The environment variable `$DOCKER_NETWORK` is set to `--network=sagemaker` only if you deployed the SageMaker Studio Code Editor CloudFormation stack in the [Set Up Your Development Environment](/docs/category/getting-started) section. This is necessary because SageMaker Studio uses a specific network configuration for its containers. Otherwise, it remains unset.
+<details>
+    <summary>Why $DOCKER_NETWORK?</summary>
+    
+    The environment variable <code>$DOCKER_NETWORK</code> is set to <code>--network=sagemaker</code> only if you deployed the SageMaker Studio Code Editor CloudFormation stack in the <a href="/docs/category/getting-started">Set Up Your Development Environment</a> section. This is necessary because SageMaker Studio uses a specific network configuration for its containers. Otherwise, it remains unset. 
+    
+</details>
 
 Building the image can take 3~5 minutes. If successful, you should see the following success message at the end:
 
