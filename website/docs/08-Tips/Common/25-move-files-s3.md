@@ -1,5 +1,5 @@
 ---
-title: "h. Upload files to Amazon s3"
+title: "Upload files to Amazon s3"
 weight: 55
 ---
 

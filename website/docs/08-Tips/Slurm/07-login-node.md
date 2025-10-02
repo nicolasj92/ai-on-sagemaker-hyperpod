@@ -1,5 +1,5 @@
 ---
-title : "d. Login Node"
+title : "Login Node"
 weight : 47
 ---
 

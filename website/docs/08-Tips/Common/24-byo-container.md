@@ -1,5 +1,5 @@
 ---
-title : "g. Bring your own container"
+title : "Bring your own container"
 weight : 54
 ---
 

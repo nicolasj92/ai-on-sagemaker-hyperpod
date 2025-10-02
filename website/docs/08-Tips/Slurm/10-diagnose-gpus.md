@@ -1,5 +1,5 @@
 ---
-title : "f. Diagnose GPU Failures"
+title : "Diagnose GPU Failures"
 weight : 50
 ---
 

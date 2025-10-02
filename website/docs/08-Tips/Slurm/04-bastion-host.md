@@ -1,5 +1,5 @@
 ---
-title : "c. Bastion Host"
+title : "Bastion Host"
 weight : 44
 ---
 

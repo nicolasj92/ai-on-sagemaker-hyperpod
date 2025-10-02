@@ -1,5 +1,5 @@
 ---
-title : "a. Containers"
+title : "Containers"
 weight : 42
 ---
 
@@ -50,7 +50,7 @@ Pretty cool right?
     enroot --help
     ```
 
-    :::alert{header="Important" type="info"}
+    :::note{header="Important" type="info"}
 
     If you see the following error `ERROR: permission denied while trying to connect to the Docker daemon socket at...` when trying to run `docker`, you'll need to add the user to the `docker` group by running:
 
@@ -66,7 +66,7 @@ Pretty cool right?
     srun --container-image=nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
     ```
 
-    :::alert{header="Important" type="info"}
+    :::note{header="Important" type="info"}
 
     If you see the following error `[WARN] Kernel module nvidia_uvm is not loaded. Make sure the NVIDIA device driver is installed and loaded.` make sure you're on **Nvidia GPU cluster**. this won't work with `trn1.32xlarge` instances.
     :::
@@ -106,7 +106,7 @@ Pretty cool right?
     nvidia-smi
     ```
 
-:::alert{header="Attention ❗" type="info"}
+:::note{header="Attention ❗" type="info"}
 It is possible that you get an error that looks like `srun: unrecognized option '--container-image'`. To fix this, you need to run:
 
 ```bash

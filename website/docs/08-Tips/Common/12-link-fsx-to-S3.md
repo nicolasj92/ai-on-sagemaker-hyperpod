@@ -1,5 +1,5 @@
 ---
-title : "a. Link FSx Filesystems to Amazon S3"
+title : "Link FSx Filesystems to Amazon S3"
 weight : 52
 ---
 

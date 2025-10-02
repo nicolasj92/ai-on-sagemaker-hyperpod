@@ -1,5 +1,5 @@
 ---
-title : "f. FSx for Lustre compression"
+title : "FSx for Lustre compression"
 weight : 63
 ---
 

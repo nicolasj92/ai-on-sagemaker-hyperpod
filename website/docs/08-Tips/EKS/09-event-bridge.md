@@ -1,5 +1,5 @@
 ---
-title : "c. Receive cluster status/health events"
+title : "Receive cluster status/health events"
 weight : 49
 ---
 
@@ -35,9 +35,9 @@ Click the button below to deploy the CloudFormation stack, which will install th
 #### 4. Verify
 
 Verify that you can receive notification emails by changing the cluster status (e.g., scaling up/down).
-You can also test node health notifications by triggering [manuall instance replacement](/08-resiliency/01-manual-replacement.md).
+You can also test node health notifications by triggering [manuall instance replacement](/docs/validation-and-testing/resiliency/eks-resiliency#1manual-replacement-or-reboot).
 
-:image[SES Console]{src="/static/images/11-tips/node-health-email.png" width=500}
+:image[SES Console]{src="/img/11-tips/node-health-email.png" width=500}
 
 
 ## Troubleshooting

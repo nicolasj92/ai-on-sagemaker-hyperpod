@@ -1,11 +1,11 @@
 ---
-title: "j. Delete Cluster Nodes"
+title: "Delete Cluster Nodes"
 weight: 59
 ---
 
 The SageMaker [BatchDeleteClusterNode API](https://docs.aws.amazon.com/sagemaker/latest/dg/smcluster-scale-down.html#smcluster-scale-down-batchdelete) allows you to delete specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs.
 
-:::alert{header="Older Clusters" type="info"}
+:::note{header="Older Clusters" type="info"}
 **Note:** The following instructions apply to cluster created after 6/20/2024. If your cluster was created before this date, you will need to run `aws sagemaker update-cluster-software` before executing below steps. See [release notes](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
 :::
 
@@ -36,7 +36,7 @@ export IDLE_NODES_TO_TERMINATE=$(sinfo --noheader --state=idle -o "%N")
 
 3. It is best practice to set the nodes in DOWN state in Slurm before Terminating them. This will ensure the slurm scheduler will not allocate new jobs on these nodes. Run the below command to set all IDLE nodes in the cluster to DOWN. 
 
-:::alert{header="Important" type="warning"}
+:::note{header="Important" type="warning"}
 The below example will set all IDLE nodes to Down. If you want to specify specific nodes to terminate, you can do so instead with: `sudo scontrol update NodeName=<Node_IP> State=Down Reason="Termination"`
 :::
 
@@ -95,8 +95,8 @@ bash get-node-status.sh
 ```
 
 ##### Execute Node Deletion 
-:::alert{header="Using AWS CLI" type="info"}
-To execute the batch delete-cluster-node command, you will need to call the API from a development environment with the AWS CLI installed. You can use [AWS CloudShell](console.aws.amazon.com/cloudshell/home?) from within your AWS Account, which comes pre-installed with the AWS CLI
+:::note{header="Using AWS CLI" type="info"}
+To execute the batch delete-cluster-node command, you will need to call the API from a development environment with the AWS CLI installed. You can use [AWS CloudShell](https://aws.amazon.com/cloudshell/) from within your AWS Account, which comes pre-installed with the AWS CLI
 :::
 
 
@@ -124,7 +124,7 @@ $ aws sagemaker batch-delete-cluster-nodes --cluster-name ml-cluster --node-ids 
 }
 ```
 
-:::alert{header="Important: Continued Billing For Reserved Instances" type="info"}
+:::note{header="Important: Continued Billing For Reserved Instances" type="info"}
 If you are using Reserved Instances for your HyperPod Cluster (via a Neogatiated PPA), you will continue to be billed for nodes which have been deleted from your cluster. If you wish to no longer be billed for the deleted instances, contact your AWS Account / Support team to notify them of the node termination and request for billing to be termianted for the deleted nodes.
 :::
 

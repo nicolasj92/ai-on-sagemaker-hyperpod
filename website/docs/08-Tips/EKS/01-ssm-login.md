@@ -1,5 +1,5 @@
 ---
-title : "a. SSM Login"
+title : "SSM Login"
 weight : 41
 ---
 

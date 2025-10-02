@@ -1,17 +1,17 @@
 ---
-title : "b. Add users to your EKS HyperPod cluster"
+title : "Add users to your EKS HyperPod cluster"
 weight : 48
 ---
 
 If you have multiple users trying to get access to your EKS cluster, you would need to set up [IAM Access Entries for EKS](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html). This section of the workshop details the steps you can use for this purpose. 
 
-:::::alert{header="Note:"}
+:::note{header="Note:"}
 There are different IAM entities that you can give access to. This section of the workshop covers:
 1. Granting Direct Access to [IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html)
 2. Granting Access to assumed [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 
 Process 2 is recommended as part of [AWS Security Best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-workloads-use-roles). The reason is simple: with IAM roles, you get temporary credentials, so you don’t have to worry about things like stolen credentials, rotating credentials etc. Additionally, you can use roles to give AWS services access to each other. For example, you can have an EC2 instance assume a role to write to S3 buckets — so rather than having a user do that using their credentials, you can use your service credentials. 
-:::::
+:::
 
 ## How to get IAM Access Entries for your EKS HyperPod cluster
 1. Navigate to your [EKS console](https://us-east-2.console.aws.amazon.com/eks/home?region=us-east-2#/home)
@@ -137,7 +137,7 @@ You can then run this script!
     5. Select the scope of access for that user (i.e., entire cluster vs a namespace)
     6. Review and Create!
 
-:::::alert{header="Note:"}
+:::::note{header="Note:"}
 How can a user assume this role?
 1. As a configured user in the account where the EKS cluster is added, run `aws sts assume-role —role-arn <role arn you grabbed earlier> —role-session-name <anything you want to name your session>`
 2. This will return an `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN`. Copy these and set them as environment variables like `export AWS_ACCESS_KEY_ID=ABCD1234`.

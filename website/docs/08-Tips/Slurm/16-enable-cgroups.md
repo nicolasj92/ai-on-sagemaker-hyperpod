@@ -1,5 +1,5 @@
 ---
-title: "h. Configure Cgroups for Slurm"
+title: "Configure Cgroups for Slurm"
 weight: 56
 ---
 

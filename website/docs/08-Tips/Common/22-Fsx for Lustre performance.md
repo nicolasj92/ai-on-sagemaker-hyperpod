@@ -1,5 +1,5 @@
 ---
-title : "e. FSx for Lustre performance"
+title : "FSx for Lustre performance"
 weight : 62
 ---
 

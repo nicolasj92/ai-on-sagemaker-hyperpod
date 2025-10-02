@@ -1,5 +1,5 @@
 ---
-title : "d. FSx for Lustre Best practices"
+title : "FSx for Lustre Best practices"
 weight : 61
 ---
 

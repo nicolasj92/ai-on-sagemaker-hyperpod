@@ -1,5 +1,5 @@
 ---
-title: "c. Downsize existing FSx Volume"
+title: "Downsize existing FSx Volume"
 weight: 57
 ---
 

@@ -1,5 +1,5 @@
 ---
-title : "b. Mount additional FSx Filesystem"
+title : "Mount additional FSx Filesystem"
 weight : 53
 ---
 
