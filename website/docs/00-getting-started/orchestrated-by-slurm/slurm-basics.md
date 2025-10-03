@@ -1,6 +1,6 @@
 ---
 title: "Basic Slurm Commands"
-sidebar_position: 4
+sidebar_position: 5
 weight: 4
 ---
 
