@@ -25,12 +25,12 @@ function HomepageHeader() {
           </Link>
         </div>
         <div className={styles.buttons}>
-          <img src="img/central-intro-image.jpg" alt="Amazon Sagemaker Hyperpod - the central infrastructure brain of your large distributed training jobs"></img>
+          <img src="img/central-intro-image.jpg" width="160" height="160" alt="Amazon Sagemaker Hyperpod - the central infrastructure brain of your large distributed training jobs"></img>
         </div>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/getting-started/orchestrated-by-eks/initial-cluster-setup">
+            to="/docs/getting-started/orchestrated-by-slurm/initial-cluster-setup">
             👩🏽‍💻 SLURM Blueprints & Getting Started guide 
           </Link>
         </div>
