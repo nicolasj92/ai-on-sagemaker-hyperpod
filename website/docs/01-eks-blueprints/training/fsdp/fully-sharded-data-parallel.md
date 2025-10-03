@@ -59,8 +59,24 @@ kubectl auth can-i create pytorchjobs
 ### Verified Instance Types and Counts
 
 This example has been verified with:
-- **ml.g5.8xlarge x 8** - Standard GPU training setup
 - **ml.p5en.48xlarge x 2** - High-performance training setup
+
+Please note you can change the model size to accommodate for other instance types.
+
+### Model Size Configurations
+
+The following table shows the parameters for different Llama model sizes based on the [Llama 2](https://arxiv.org/abs/2307.09288) and [Llama 3](https://arxiv.org/abs/2407.21783) papers:
+
+| Parameter | Llama 2 7B | Llama 2 13B | Llama 2 70B | Llama 3.1 8B | Llama 3.1 70B | Llama 3.2 1B | Llama 3.2 3B |
+|-----------|------------|-------------|-------------|--------------|---------------|--------------|--------------|
+| **intermediate_size** | 11008 | 13824 | 28672 | 14336 | 28672 | 8192 | 11008 |
+| **num_key_value_heads** | 32 | 40 | 8 | 8 | 8 | 8 | 8 |
+| **hidden_width** | 4096 | 5120 | 8192 | 4096 | 8192 | 2048 | 3072 |
+| **num_layers** | 32 | 40 | 80 | 32 | 80 | 16 | 28 |
+| **num_heads** | 32 | 40 | 64 | 32 | 64 | 32 | 24 |
+| **max_context_length** | 4096 | 4096 | 4096 | 8192 | 8192 | 8192 | 8192 |
+
+These configurations can be used to adjust the model parameters in your training scripts based on your compute requirements and available instance types.
 
 ## Step 1: Setup the Docker Image
 

@@ -3,7 +3,7 @@ title: Distributed Data Parallel (DDP)
 sidebar_position: 2
 ---
 
-# Get Started Training a Model using PyTorch DDP in 5 Minutes
+# Get Started Training a Model using PyTorch DDP in 5 Minutes (CPU)
 
 This guide provides step-by-step instructions for setting up Distributed Data Parallel (DDP) training on EKS using PyTorch.
 
