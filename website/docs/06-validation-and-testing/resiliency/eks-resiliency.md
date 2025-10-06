@@ -31,6 +31,15 @@ In order to manually reboot a node, we can run the following command, where `hyp
   --overwrite=true
 ```
 
+Once executed, you would be able to see the node being labelled as `UnschedulablePendingReboot` and see status change to `NotReady`.
+
+```text
+NAME                           STATUS     ROLES    AGE     VERSION                NODE-HEALTH-STATUS
+hyperpod-i-0220224e40218ce3a   NotReady   <none>   6m     v1.29.3-eks-ae9a62a    UnschedulablePendingReboot
+hyperpod-i-06c561302ab149bb7   Ready      <none>   4m28s   v1.29.3-eks-ae9a62a    Schedulable
+```
+Soon after, the node would reboot and become available again.
+
 In order to manually replace a node we can run the following command, where `hyperpod-i-0220224e40218ce3a` is the name of the node you want to replace:
 
 ```bash
@@ -73,7 +82,7 @@ hyperpod-i-0cb64f158c17be463   Ready    <none>   16s     v1.29.3-eks-ae9a62a    
 You can monitor the progress of the node replacement also on the HyperPod management console.
 
 
-## 2.Emulate Instance Failure 
+## 2.Emulate Instance Failure
 This section depicts an example on how to inject an error in order to test automatic node replacement.
 
 #### connect to one of the nodes in the cluster using SSM agent
@@ -83,7 +92,7 @@ aws ssm start-session --target sagemaker-cluster:<hyperpod-cluster-id>_<node-gro
 
 ```
 
-#### Inject the following commands on the instance to emulate the instance failure to trigger instance replacement: 
+#### Inject the following commands on the instance to emulate the instance failure to trigger instance replacement:
 
 ```bash
 sudo sh -c "sleep 1 && echo \"$(date '+%b %d %H:%M:%S') $(hostname) kernel: NVRM: Xid (PCI:0000:b9:00): 74, pid=<unknown>, name=<unknown>, NVLink: fatal error detected on link 6(0x10000, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)\" >> /var/log/messages"
@@ -91,7 +100,7 @@ sudo sh -c "sleep 1 && echo \"$(date '+%b %d %H:%M:%S') $(hostname) kernel: NVRM
 
 > change the date to be current before injecting.
 
-Once this is done, you can notice the node label will change to 'UnschedulablePendingReplacement' 
+Once this is done, you can notice the node label will change to 'UnschedulablePendingReplacement'
 
 ```bash
 kubectl get nodes --show-labels
@@ -111,7 +120,7 @@ kubectl get nodes --show-labels
 
 ## 3.Enable Job Auto Resume #
 
-This section describes how to run a training job with the SageMaker HyperPod Job auto-resume functionality, which provides a zero-touch resiliency infrastructure to automatically recover a training job from the last saved checkpoint in the event of a hardware failure for clusters. SageMaker HyperPod with EKS currently supports Job auto-resume feature when using Pytorch Training Operator for orchestrating jobs. 
+This section describes how to run a training job with the SageMaker HyperPod Job auto-resume functionality, which provides a zero-touch resiliency infrastructure to automatically recover a training job from the last saved checkpoint in the event of a hardware failure for clusters. SageMaker HyperPod with EKS currently supports Job auto-resume feature when using Pytorch Training Operator for orchestrating jobs.
 
 Below steps explain how to setup and test Job Auto Resume for your training job.
 
@@ -164,14 +173,14 @@ Once the above changes are made and the job is running successfully. In order to
 
 ### Check job status and Node status
 
-Once you inject the failure , the job status should automatically show that the job is restarting. Use the kubectl describe command to 
+Once you inject the failure , the job status should automatically show that the job is restarting. Use the kubectl describe command to
 
 ```bash
 kubectl describe pytorchjob <jobname>
 ```
-> Note - Replace the jobname in the above command with the actual jobname. 
+> Note - Replace the jobname in the above command with the actual jobname.
 
-The Job AutoResume watcher automatically brings down the job and restarts it. You should see in the events section an event for job restar as shown below. 
+The Job AutoResume watcher automatically brings down the job and restarts it. You should see in the events section an event for job restar as shown below.
 
 ![import grafana dashboard](/img/05-resiliency/auto-resume-1.png)
 
@@ -184,7 +193,7 @@ kubectl get pods -o wide
 ![import grafana dashboard](/img/05-resiliency/auto-resume-2.png)
 
 
-You should also notice the faulty node marked as unschedulablependingreplacement when you check the node label 
+You should also notice the faulty node marked as unschedulablependingreplacement when you check the node label
 
 ```bash
 kubectl get nodes -L node.kubernetes.io/instance-type,sagemaker.amazonaws.com/node-health-status,sagemaker.amazonaws.com/deep-health-check-status
