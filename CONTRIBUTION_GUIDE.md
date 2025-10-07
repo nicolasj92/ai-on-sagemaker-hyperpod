@@ -11,7 +11,7 @@ A few things to keep in mind when contributing anything to this repository:
 
 1) Open a Github issue first: before committing code, please open a Github issue describing your proposed changes so we
    can provide guidance and avoid duplicate work.
-2) Make sure yuor code renders properly locally. Instructions on how to test locally can be found under each contribution section.
+2) Make sure your code renders properly locally. Instructions on how to test locally can be found under each contribution section.
   
 
 ## Contributing Blueprints
@@ -39,7 +39,7 @@ npm run build
 npm run serve
 ```
 
-If your build ran succesfuly and the new contribution renders correctly, then make sure you have the `build/` and the `.docusaurus/` odded to your `.gitignore` file or delete both before adding the files and pushing them. Your contribution should add only the files that you have changed, not the build files.
+If your build ran succesfully and the new contribution renders correctly, then make sure you have the `build/` and the `.docusaurus/` added to your `.gitignore` file or delete both before adding the files and pushing them. Your contribution should add only the files that you have changed, not the build files.
 
 ## Other Contributions
 
