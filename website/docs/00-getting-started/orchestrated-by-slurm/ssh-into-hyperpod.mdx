@@ -10,23 +10,42 @@ import TabItem from '@theme/TabItem';
   <img src="/img/01-cluster/shell.svg" alt="Cloud Shell" width="128" />
 </p>
 
-## Login to your cluster
+## Overview
 
-Once the cluster status changes to `InService` you can connect to the cluster via SSM. You'll need to grab the cluster id, node group name and the instance id:
+SageMaker HyperPod clusters don't expose SSH ports directly to the internet for security reasons. Instead, you access cluster nodes through AWS Systems Manager (SSM) Session Manager, which provides secure, auditable access without requiring inbound firewall rules or bastion hosts.
 
-| Key         | Example Value       | Where to get                |
-|-------------|---------------------|-----------------------------|
-| Cluster id  | q2vei6nzqldz        | `arn` in `describe-cluster` |
-| Instance Id | i-08982ccd4b6b34eb1 | `list-cluster-nodes`        |
-| Node Group Name | controller-machine | `list-cluster-nodes`        |
+This guide covers:
+- Why SSM is required and how it works
+- Setting up SSM with proper permissions
+- Manual SSH configuration 
+- Using the easy_ssh.sh script to automate the process
 
+## Why AWS Systems Manager (SSM)?
+
+AWS Systems Manager Session Manager provides several security and operational benefits:
+
+- **No inbound ports**: Eliminates the need to open SSH ports (22) in security groups
+- **No bastion hosts**: Removes the complexity and cost of managing jump servers
+- **Centralized access control**: Uses IAM policies for fine-grained access control
+- **Audit logging**: All session activity can be logged to CloudWatch and S3
+- **Encrypted connections**: All traffic is encrypted in transit
+- **No key management**: Can work without distributing SSH keys (though keys enable additional features)
+
+## Prerequisites
+
+Before connecting to your HyperPod cluster, ensure:
+
+1. Your cluster status is `InService`
+2. You have AWS CLI configured with appropriate credentials
+3. You have the required IAM permissions (see [IAM Permissions](#iam-permissions) section)
 
 :::info
-To access AWS API through the CLI you'll need to have configured the CLI. Please refer to this document on [Authentication and access credentials for the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html) to learn how to do that.
+To configure AWS CLI credentials, refer to [Authentication and access credentials for the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html).
 :::
 
+## Step 1: Install SSM Session Manager Plugin
 
-1. First install the [SSM Session Manager Plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html):
+The Session Manager plugin enables the AWS CLI to start and end sessions that connect you to your managed instances.
 
 <div style={{
   border: '1px solid #243343ff',
@@ -64,48 +83,246 @@ To access AWS API through the CLI you'll need to have configured the CLI. Please
 </Tabs>
 </div>
 
-1. (Optional) Next create a local keypair, this will allow us to SSH in instead of using the `easy-ssh.sh` script to connect:
-
+Verify the installation:
 ```bash
-ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
+session-manager-plugin --version
 ```
 
-2. Next we'll run a script [easy-ssh.sh](https://github.com/aws-samples/awsome-distributed-training/blob/main/1.architectures/5.sagemaker-hyperpod/easy-ssh.sh) to login to the cluster and add our keypair. You can run it like: `easy-ssh.sh -c <node-group> <cluster-name>` script like so:
+## Step 2: Gather Cluster Information
+
+You'll need three pieces of information to connect to your HyperPod cluster:
+
+| Key         | Example Value       | How to obtain                |
+|-------------|---------------------|-----------------------------|
+| Cluster ID  | q2vei6nzqldz        | Extract from cluster ARN in `describe-cluster` |
+| Instance ID | i-08982ccd4b6b34eb1 | From `list-cluster-nodes` output        |
+| Node Group Name | controller-machine | From `list-cluster-nodes` output        |
+
+### Get Cluster ID
+```bash
+aws sagemaker describe-cluster --cluster-name <your-cluster-name> --query 'ClusterArn' --output text
+```
+The cluster ID is the last part of the ARN after the final `/`.
+
+### Get Instance ID and Node Group Name
+```bash
+aws sagemaker list-cluster-nodes --cluster-name <your-cluster-name>
+```
+
+## Step 3: Manual SSH Configuration
+
+This section shows how to manually configure SSH access, giving you full control over the setup process.
+
+### 3.1 Generate SSH Key Pair (if needed)
+```bash
+ssh-keygen -t rsa -b 4096 -f "$HOME/.ssh/id_rsa" -N ""
+```
+
+### 3.2 Connect via SSM and Add Your Public Key
+
+First, connect to your cluster using the raw SSM command:
+```bash
+aws ssm start-session \
+    --target sagemaker-cluster:<cluster-id>_<node-group>-<instance-id> \
+    --region <your-region>
+```
+
+Once connected, you'll be logged in as root. Switch to the ubuntu user and add your public key:
+```bash
+# Switch to ubuntu user
+sudo su - ubuntu
+
+# Create .ssh directory if it doesn't exist
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+# Add your public key (replace with your actual public key)
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAA... your-public-key" >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+# Exit the session
+exit
+exit
+```
+
+### 3.3 Configure SSH Client
+
+Add the following configuration to your local `~/.ssh/config` file:
 
 ```bash
+cat <<EOF >> ~/.ssh/config
+Host <your-cluster-name>
+    User ubuntu
+    ProxyCommand sh -c "aws ssm start-session --target sagemaker-cluster:<cluster-id>_<node-group>-<instance-id> --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+EOF
+```
+
+Replace the placeholders with your actual values:
+- `<your-cluster-name>`: A friendly name for your cluster
+- `<cluster-id>`: Your cluster ID
+- `<node-group>`: Your node group name  
+- `<instance-id>`: Your instance ID
+
+### 3.4 Test SSH Connection
+
+Now you can connect using standard SSH:
+```bash
+ssh <your-cluster-name>
+```
+
+## Step 4: Using the easy_ssh.sh Script (Automation Tool)
+
+The `easy_ssh.sh` script automates the manual process described above. It's a convenience tool that:
+- Automatically retrieves cluster information
+- Sets up SSH configuration
+- Adds your public key to the cluster
+
+### Download and Use the Script
+
+```bash
+# Download the script
 curl -O https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod/easy-ssh.sh
 chmod +x easy-ssh.sh
-./easy-ssh.sh -c login-group ml-cluster
-```
-:::caution Important
 
-If you see an error similar to the following, check the cluster status with `aws sagemaker describe-cluster --cluster-name ml-cluster`. It needs to be *InService* prior to accessing the cluster.
+# Generate SSH key if you don't have one
+ssh-keygen -t rsa -b 4096 -f "$HOME/.ssh/id_rsa" -N ""
 
-```
-An error occurred (TargetNotConnected) when calling the StartSession operation: sagemaker-cluster:ry1dxjpubisd_controller-machine-i-07042e35a07c61543 is not connected.
+# Run the script
+./easy-ssh.sh -c <node-group> <cluster-name>
 ```
 
-Also, in certain scenarios where the ssh workflow changes e.g. cluster re-created or the client machine you're using to ssh into the cluster changes, you may see this error when trying to use easy-ssh script.
-
+Example:
+```bash
+./easy-ssh.sh -c controller-machine ml-cluster
 ```
-----------ERROR-------
-Unable to start command: failed to start pty since RunAs user <your username> does not exist
+The script will prompt you to:
+1. Add the cluster to your `~/.ssh/config`
+2. Add your SSH public key to the cluster
+
+Answer "yes" to both prompts for the full automated setup.
+
+## IAM Permissions
+
+To access HyperPod clusters via SSM, users need specific IAM permissions. Here's a least-privilege policy example:
+
+### Minimum Required Permissions
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:StartSession"
+            ],
+            "Resource": [
+                "arn:aws:ssm:*:*:document/AWS-StartSSHSession",
+                "arn:aws:ssm:*:*:document/SSM-SessionManagerRunShell"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:StartSession"
+            ],
+            "Resource": "arn:aws:ssm:*:*:managed-instance/sagemaker-cluster:*",
+            "Condition": {
+                "StringLike": {
+                    "ssm:resourceTag/sagemaker:cluster-name": "<your-cluster-name>"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:TerminateSession",
+                "ssm:ResumeSession"
+            ],
+            "Resource": "arn:aws:ssm:*:*:session/${aws:username}-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:DescribeCluster",
+                "sagemaker:ListClusterNodes"
+            ],
+            "Resource": "arn:aws:sagemaker:*:*:cluster/<your-cluster-name>"
+        }
+    ]
+}
 ```
 
-This usually happens when you've setup multi-user access and have enabled [Run-as-user through SSM](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-preferences-run-as.html).
+### Additional Permissions for Multi-User Environments
 
-To fix this simply revert the SSM Run-as-user configuration steps and try again.
+If you're setting up access for multiple users, consider these additional permissions:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:SendCommand"
+            ],
+            "Resource": [
+                "arn:aws:ssm:*:*:managed-instance/sagemaker-cluster:*",
+                "arn:aws:ssm:*:*:document/AWS-RunShellScript"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "ssm:resourceTag/sagemaker:cluster-name": "<your-cluster-name>"
+                }
+            }
+        }
+    ]
+}
+```
+
+:::warning Security Best Practices
+- **Principle of least privilege**: Only grant the minimum permissions required
+- **Resource-specific access**: Use conditions to limit access to specific clusters
+- **Regular audits**: Review and rotate access permissions regularly
+- **Session logging**: Enable CloudWatch logging for all SSM sessions
+- **User isolation**: Consider using separate IAM roles for different user groups
 :::
 
+## Troubleshooting
 
-You should see output similar to the following:
+### Common Issues
+
+**Cluster not accessible:**
+```
+An error occurred (TargetNotConnected) when calling the StartSession operation
+```
+- Verify cluster status is `InService`: `aws sagemaker describe-cluster --cluster-name <cluster-name>`
+- Check your IAM permissions
+- Ensure you're using the correct region
+
+**RunAs user errors:**
+```
+Unable to start command: failed to start pty since RunAs user <username> does not exist
+```
+- This occurs when SSM Run-as-user is configured but the user doesn't exist on the target
+- Disable Run-as-user in SSM preferences or create the user on the target instance
+
+**SSH connection refused:**
+```
+ssh: connect to host <cluster-name> port 22: Connection refused
+```
+- Verify your SSH configuration in `~/.ssh/config`
+- Ensure the ProxyCommand is correctly formatted
+- Test the underlying SSM connection first
+
+
+### Expected Output
+
+When the script runs successfully, you'll see output similar to:
 
 ```
 =================================================
-
 ==== 🚀 HyperPod Cluster Easy SSH Script! 🚀 ====
-
-
 =================================================
 Cluster id: hyiyx2wvois6
 Instance id: i-0744d68e03703e483
@@ -120,38 +337,43 @@ Adding ... ssh-rsa ...
 ✅ Your SSH public key ~/.ssh/id_rsa.pub has been added to the cluster.
 
 Now you can run:
-
 $ ssh ml-cluster
 ```
 
-![Cluster Screenshot](/img/01-cluster/ssh.png)
+## Connecting to Your Cluster
 
-:::info Pro tip
-When you ran the `./easy-ssh.sh -c controller-machine ml-cluster` command it gives you the option to add a shortcut to `~/.ssh/config` and add a local keypair.
-
-1. To set this up, make sure to answer `yes` when prompted to add the shortcut to `~/.ssh/config`:
-
-```
-Would you like to add ml-cluster to  ~/.ssh/config (yes/no)?
-> yes
-✅ adding ml-cluster to  ~/.ssh/config:
-```
-
-2. Next add your public key to the `~/.ssh/authorized_keys` by answering `yes` in the `easy-ssh.sh` script.
-
-```
-2. Do you want to add your SSH public key ~/.ssh/id_rsa.pub to the cluster (yes/no)?
-> yes
-Adding ... ssh-rsa ...
-
-✅ Your SSH public key ~/.ssh/id_rsa.pub has been added to the cluster.
-```
-
-3. Then you can easily connect via:
+After completing either the manual setup or using the easy_ssh.sh script, you can connect to your cluster:
 
 ```bash
-ssh ml-cluster
+ssh <your-cluster-name>
 ```
 
-This way you're automatically connected to `ubuntu` user. Voila!
-:::
+You'll be connected as the `ubuntu` user and can start running your workloads.
+
+![Cluster Screenshot](/img/01-cluster/ssh.png)
+
+## Advanced Configuration
+
+### Port Forwarding
+
+You can forward ports through the SSM tunnel for accessing services running on your cluster:
+
+```bash
+ssh -L 8080:localhost:8080 <your-cluster-name>
+```
+
+### SCP File Transfer
+
+Copy files to/from your cluster using SCP:
+
+```bash
+# Copy file to cluster
+scp local-file.txt <your-cluster-name>:~/
+
+# Copy file from cluster  
+scp <your-cluster-name>:~/remote-file.txt ./
+```
+
+### Multiple Node Access
+
+To access different nodes in your cluster, you can create separate SSH configurations for each node by following the manual setup process with different instance IDs.
