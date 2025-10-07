@@ -146,7 +146,7 @@ const config: Config = {
               label: 'Initial cluster setup',
             },
             {
-              to: '/docs/slurm-blueprints/training/trainium/aws-trainium',
+              to: '/docs/slurm-blueprints/training/trainium/Llama3-70B',
               label: 'AWS Trainium',
             },
             {
@@ -158,12 +158,8 @@ const config: Config = {
               label: 'Fully Sharded Data Parallel',
             },
             {
-              to: '/docs/slurm-blueprints/training/megatron-lm',
+              to: '/docs/slurm-blueprints/training/megatron-lm/megatron-lm-readme', 
               label: 'NVIDIA Megatron LM',
-            },
-            {
-              to: '/docs/slurm-blueprints/training/ray-train',
-              label: 'Ray Train',
             },
           ],
         },
@@ -231,6 +227,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ['bash', 'shell-session', 'docker', 'ini', 'powershell'],
     },
   } satisfies Preset.ThemeConfig,
 };
