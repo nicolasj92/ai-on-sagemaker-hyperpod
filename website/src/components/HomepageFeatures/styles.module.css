@@ -1,11 +1,117 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: var(--ifm-spacing-vertical) 0;
   width: 100%;
 }
 
+/* Floating animation keyframes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 .featureSvg {
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
+  /* Floating effect */
+  animation: float 3s ease-in-out infinite;
+  /* Modern styling */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for more interactivity */
+.featureSvg:hover {
+  transform: translateY(-5px) scale(1.1);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .featureSvg {
+  filter: drop-shadow(0 4px 8px rgba(255, 255, 255, 0.1));
+}
+
+[data-theme='dark'] .featureSvg:hover {
+  filter: drop-shadow(0 8px 16px rgba(255, 255, 255, 0.15));
+}
+
+/* Feature item container for consistent alignment */
+.featureItem {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.featureContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Title styling with reduced font size */
+.featureTitle {
+  font-size: 1.1rem !important;
+  margin-bottom: 1rem !important;
+  min-height: 3rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Description container for consistent alignment */
+.featureDescription {
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-start;
+}
+
+.featureDescription p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Responsive sizing using Infima breakpoints */
+@media screen and (max-width: 996px) {
+  .featureSvg {
+    height: 70px;
+    width: 70px;
+  }
+  
+  .featureTitle {
+    font-size: 1rem !important;
+    min-height: 2.5rem;
+  }
+  
+  .featureDescription p {
+    font-size: 0.85rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .featureSvg {
+    height: 60px;
+    width: 60px;
+  }
+  
+  /* Reduce animation on mobile for performance */
+  .featureSvg {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .featureTitle {
+    font-size: 0.95rem !important;
+    min-height: 2rem;
+  }
+  
+  .featureDescription p {
+    font-size: 0.8rem;
+  }
 }
