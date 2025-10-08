@@ -120,21 +120,27 @@
 
 /* Dark theme adjustments for glass morphism */
 [data-theme='dark'] .featureItem {
-  background: rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(60, 60, 60, 0.9) 0%, rgba(40, 40, 40, 0.95) 100%);
+  border-color: rgba(255, 255, 255, 0.15);
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    0 4px 16px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure proper text color in dark mode with dark cards */
+[data-theme='dark'] .featureItem .featureTitle,
+[data-theme='dark'] .featureItem .featureDescription p {
+  color: var(--ifm-font-color-base) !important;
 }
 
 [data-theme='dark'] .featureItem:hover {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, rgba(70, 70, 70, 0.95) 0%, rgba(50, 50, 50, 0.98) 100%);
+  border-color: rgba(255, 255, 255, 0.25);
   box-shadow: 
     0 20px 40px rgba(0, 0, 0, 0.4),
     0 10px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .featureContent {
