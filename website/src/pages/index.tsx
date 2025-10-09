@@ -11,8 +11,6 @@ import Heading from '@theme/Heading';
 
 import styles from './index.module.css';
 
-
-
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
 
@@ -31,8 +29,7 @@ function HomepageHeader() {
               <Link
                 className={clsx("button button--secondary button--lg", styles.squaredButton)}
                 to="/docs/getting-started/orchestrated-by-eks/initial-cluster-setup">
-                👩🏽‍💻 Orchestrated by EKS <br /><br />
-                Blueprints & Getting Started guide
+                Orchestrated by EKS
               </Link>
               <img
                 src="img/central-intro-image.jpg"
@@ -42,8 +39,7 @@ function HomepageHeader() {
               <Link
                 className={clsx("button button--secondary button--lg", styles.squaredButton)}
                 to="/docs/getting-started/orchestrated-by-slurm/initial-cluster-setup">
-                👩🏽‍💻 Orchestrated by SLURM <br /><br />
-                Blueprints & Getting Started guide
+                Orchestrated by SLURM
               </Link>
             </div>
           </div>
