@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import clsx from 'clsx';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
@@ -13,7 +14,7 @@ type FeatureItem = {
 function PngImageIcon({ src, alt }: { src: string; alt: string }) {
   return (
     <img
-      src={src}
+      src={useBaseUrl(src)}
       alt={alt}
       width="200"
       height="200"
