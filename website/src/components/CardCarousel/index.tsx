@@ -8,14 +8,12 @@ function PlaceholderCard({
   title,
   index,
   isActive,
-  onClick,
   description,
   articleLink
 }: {
   title: string;
   index: number;
   isActive: boolean;
-  onClick: () => void;
   description: string;
   articleLink: string;
 }) {
@@ -24,7 +22,6 @@ function PlaceholderCard({
       className={clsx(styles.carouselCard, {
         [styles.carouselCardActive]: isActive
       })}
-      onClick={onClick}
     >
       <div className={styles.cardContent}>
         {/* Placeholder Image */}
@@ -69,26 +66,35 @@ export default function CardCarousel(): ReactNode {
 
   const placeholderCards = [
     {
-      title: "Getting Started Guide",
-      description: "Learn the fundamentals of Amazon SageMaker HyperPod and how to set up your first distributed training cluster.",
-      articleLink: "/docs/getting-started"
+      title: "Amazon SageMaker HyperPod now supports custom AMIs",
+      description: "Deploy clusters with pre-configured, security-hardened environments that meet organizational requirements. Custom AMIs enable faster startup times and consistent configurations across cluster nodes.",
+      articleLink: "https://aws.amazon.com/about-aws/whats-new/2025/08/sagemaker-hyperpod-support-custom-ami/"
     },
     {
-      title: "Training Best Practices",
-      description: "Discover advanced training techniques and optimization strategies for large-scale machine learning workloads.",
-      articleLink: "/docs/training/best-practices"
+      title: "Announcing Managed Tiered Checkpointing for Amazon SageMaker HyperPodTraining Best Practices",
+      description: "Train reliably on large-scale clusters with configurable checkpoint frequency across in-memory and persistent storage. Integrated with PyTorch's Distributed Checkpoint for easy implementation.",
+      articleLink: "https://aws.amazon.com/about-aws/whats-new/2025/09/managed-tiered-checkpointing-amazon-sagemaker-hyperpod/"
     },
     {
-      title: "Infrastructure Setup",
-      description: "Complete guide to configuring your infrastructure for optimal performance and cost efficiency.",
-      articleLink: "/docs/infrastructure"
+      title: "Amazon SageMaker HyperPod now supports autoscaling using Karpenter",
+      description: "Automatically scale clusters to meet dynamic inference and training demands. Managed node autoscaling eliminates Karpenter setup overhead while providing integrated resilience and fault tolerance.",
+      articleLink: "https://aws.amazon.com/about-aws/whats-new/2025/09/sagemaker-hyperpod-autoscaling/"
     },
     {
-      title: "Monitoring & Troubleshooting",
-      description: "Learn how to monitor your clusters and troubleshoot common issues in production environments.",
-      articleLink: "/docs/monitoring"
-    }
+      title: "Amazon SageMaker AI now supports P6e-GB200 UltraServers",
+      description: "Deliver 20x compute and 11x memory performance with 360 petaflops of FP8 compute and 13.4 TB HBM3e memory. Combined with SageMaker's managed infrastructure and monitoring capabilities.",
+      articleLink: "https://aws.amazon.com/about-aws/whats-new/2025/08/sagemaker-p6e-gb200-ultraservers/"
+    },
   ];
+
+  // Auto-switch cards every 5 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCard((prev) => (prev + 1) % placeholderCards.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [placeholderCards.length]);
 
   return (
     <div className={styles.carouselContainer}>
@@ -101,7 +107,6 @@ export default function CardCarousel(): ReactNode {
             articleLink={card.articleLink}
             index={index}
             isActive={activeCard === index}
-            onClick={() => setActiveCard(index)}
           />
         ))}
       </div>
