@@ -1,0 +1,199 @@
+/* Carousel container styling - squared and centered */
+.carouselContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Navigation bullets styling - positioned at top */
+.carouselNavigation {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.carouselBullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.carouselBullet:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.carouselBulletActive {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.carouselScroll {
+  position: relative;
+  flex: 1;
+  overflow: visible;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom scrollbar styling */
+.carouselScroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.carouselScroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.carouselScroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.carouselScroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Individual carousel card styling - squared stacked effect */
+.carouselCard {
+  position: absolute;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Neat stacked positioning for each card */
+.carouselCard:nth-child(1) {
+  top: 0;
+  left: 0;
+  z-index: 4;
+  transform: translateY(0px);
+}
+
+.carouselCard:nth-child(2) {
+  top: 0;
+  left: 0;
+  z-index: 3;
+  transform: translateY(8px);
+}
+
+.carouselCard:nth-child(3) {
+  top: 0;
+  left: 0;
+  z-index: 2;
+  transform: translateY(16px);
+}
+
+.carouselCard:nth-child(4) {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transform: translateY(24px);
+}
+
+/* Active card styling - brings to front */
+.carouselCardActive {
+  z-index: 10 !important;
+  transform: translateY(-10px) scale(1.02) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.carouselCard:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.cardIcon {
+  margin-bottom: 0.5rem;
+}
+
+.cardTitle {
+  color: var(--ifm-font-color-base-inverse);
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  font-weight: 600;
+}
+
+.cardDescription {
+  color: var(--ifm-font-color-base-inverse);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Dark theme adjustments for carousel */
+[data-theme='dark'] .carouselContainer {
+  background: rgba(0, 0, 0, 0);
+  border-color: rgba(255, 255, 255, 0);
+}
+
+[data-theme='dark'] .carouselCard {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.35) 100%);
+  border-color: rgba(200, 200, 200, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .carouselCard:hover {
+  background: linear-gradient(135deg, rgba(250, 250, 250, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Ensure proper text color in dark mode */
+[data-theme='dark'] .carouselCard .cardTitle,
+[data-theme='dark'] .carouselCard .cardDescription {
+  color: var(--ifm-color-gray-900);
+}
+
+[data-theme='dark'] .carouselBullet {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme='dark'] .carouselBullet:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme='dark'] .carouselBulletActive {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.9);
+}
