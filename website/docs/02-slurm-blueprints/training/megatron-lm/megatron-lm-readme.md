@@ -87,7 +87,7 @@ All next steps will be executed on the compute node.
 6. Create the squash file with the command below.
 
    ```bash
-   sudo enroot import -o megatron-training.sqsh  dockerd://megatron-training:latest
+   enroot import -o megatron-training.sqsh  dockerd://megatron-training:latest
    ```
 
    The file will be stored in the current directory (if left as default). The output should look as below.
