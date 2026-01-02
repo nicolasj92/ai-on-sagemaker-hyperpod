@@ -26,7 +26,7 @@ Explore practical examples, architectural patterns, troubleshooting, and many ot
 
 There are troubleshooting advise on specific problems you may find, best practices when integrating with other AWS services and open source projects, and code snippets that you may find useful to incorporate on your workloads.
 
-> **Note:** AI On Sagemaker Hyperpod is an active development. For upcoming features and enhancements, please check out the [issues](https://github.com/awslbas/ai-on-sagemaker-hyperpod/issues) section.
+> **Note:** AI On Sagemaker Hyperpod is an active development. For upcoming features and enhancements, please check out the [issues](https://github.com/awslabs/ai-on-sagemaker-hyperpod/issues) section.
 
 ## Examples provided
 Those are some examples you can find on this project, using the EKS orchestration:
