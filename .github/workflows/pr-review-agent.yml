@@ -1,0 +1,97 @@
+name: Automated PR Review with Kiro CLI
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Daily at 9 AM UTC
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: read
+  pull-requests: read
+  id-token: write  # Required for OIDC
+
+jobs:
+  review-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Kiro CLI
+        run: |
+          curl -fsSL https://d2xqz20i7ozssx.cloudfront.net/install.sh | bash
+          echo "$HOME/.kiro/bin" >> $GITHUB_PATH
+
+      - name: Configure AWS credentials (if needed)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::159553542841:role/awslabs-AOSH-GitHubActionsRole
+          aws-region: us-east-1
+
+      - name: Fetch all open PRs
+        id: fetch-prs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr list --json number,title,author,url,headRefName --limit 100 > prs.json
+          echo "pr_count=$(jq length prs.json)" >> $GITHUB_OUTPUT
+
+      - name: Review PRs with Kiro CLI
+        if: steps.fetch-prs.outputs.pr_count > 0
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat > review_prompt.txt << 'EOF'
+          You are an experienced AWS Solution Architect and Software Developer reviewing GitHub pull requests.
+          
+          Tasks:
+          1. Read all open PRs from prs.json and create a summary
+          2. For each PR, checkout the branch and review the code changes for:
+             - Code inconsistencies and quality issues
+             - Security vulnerabilities and best practices
+             - Testing coverage and best practices
+          3. Challenge the approaches used and recommend better alternatives based on the actual code
+          4. Provide merge recommendations (ready to merge, needs review, needs changes)
+          5. Detail the impact and purpose of each PR's changes
+          
+          Output format:
+          - Create a markdown report with sections for each PR
+          - Include executive summary at the top
+          - Use clear headings and bullet points
+          - Be specific and reference actual code when making recommendations
+          
+          Start by reading prs.json to see all open PRs.
+          EOF
+          
+          kiro-cli agent --prompt "$(cat review_prompt.txt)" --output review_results.md
+
+      - name: Send results to Slack
+        if: steps.fetch-prs.outputs.pr_count > 0
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: "PR Review Report - $(date +%Y-%m-%d)"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Upload review file to Slack
+        if: steps.fetch-prs.outputs.pr_count > 0
+        run: |
+          curl -F file=@review_results.md \
+               -F "channels=${{ secrets.SLACK_CHANNEL_ID }}" \
+               -F "title=PR Review - $(date +%Y-%m-%d)" \
+               -F "initial_comment=Automated PR review results" \
+               -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
+               https://slack.com/api/files.upload
+
+      - name: Upload review artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-review-results
+          path: review_results.md
+          retention-days: 30
