@@ -1,4 +1,4 @@
-name: Automated PR Review with Kiro CLI
+name: Automated PR Review with Bedrock
 
 on:
   schedule:
@@ -21,10 +21,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Kiro CLI
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
         run: |
-          curl -fsSL https://d2xqz20i7ozssx.cloudfront.net/install.sh | bash
-          echo "$HOME/.kiro/bin" >> $GITHUB_PATH
+          pip install boto3
 
       - name: Configure AWS credentials (if needed)
         uses: aws-actions/configure-aws-credentials@v4
@@ -40,34 +44,11 @@ jobs:
           gh pr list --json number,title,author,url,headRefName --limit 100 > prs.json
           echo "pr_count=$(jq length prs.json)" >> $GITHUB_OUTPUT
 
-      - name: Review PRs with Kiro CLI
+      - name: Review PRs with Bedrock
         if: steps.fetch-prs.outputs.pr_count > 0
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat > review_prompt.txt << EOF
-          You are an experienced AWS Solution Architect and Software Developer reviewing GitHub pull requests.
-          
-          Tasks:
-          1. Read all open PRs from prs.json and create a summary
-          2. For each PR, checkout the branch and review the code changes for:
-             - Code inconsistencies and quality issues
-             - Security vulnerabilities and best practices
-             - Testing coverage and best practices
-          3. Challenge the approaches used and recommend better alternatives based on the actual code
-          4. Provide merge recommendations (ready to merge, needs review, needs changes)
-          5. Detail the impact and purpose of each PR's changes
-          
-          Output format:
-          - Create a markdown report with sections for each PR
-          - Include executive summary at the top
-          - Use clear headings and bullet points
-          - Be specific and reference actual code when making recommendations
-          
-          Start by reading prs.json to see all open PRs.
-          EOF
-          
-          kiro-cli agent --prompt "$(cat review_prompt.txt)" --output review_results.md
+        run: python review_prs.py
 
       - name: Send results to Slack
         if: steps.fetch-prs.outputs.pr_count > 0
