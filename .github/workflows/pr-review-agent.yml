@@ -45,7 +45,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat > review_prompt.txt << 'EOF'
+          cat > review_prompt.txt << EOF
           You are an experienced AWS Solution Architect and Software Developer reviewing GitHub pull requests.
           
           Tasks:
