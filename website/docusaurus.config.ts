@@ -106,67 +106,90 @@ const config: Config = {
       hideOnScroll: false,
       items: [
         {
+          to: '/docs/Introduction',
+          label: 'Introduction',
+          position: 'left',
+        },
+        {
           type: 'dropdown',
-          label: 'Orchestrated by EKS',
+          label: 'EKS Orchestration',
           position: 'left',
           items: [
             {
-              to: '/docs/getting-started/orchestrated-by-eks/initial-cluster-setup',
-              label: 'Initial cluster setup',
+              to: '/docs/eks-orchestration/getting-started/initial-cluster-setup',
+              label: 'Getting Started',
             },
             {
-              to: '/docs/eks-blueprints/training/trainium/aws-trainium',
-              label: 'AWS Trainium',
+              to: '/docs/eks-orchestration/training-and-fine-tuning/ddp/distributed-data-parallel',
+              label: 'Training & Fine-Tuning',
             },
             {
-              to: '/docs/eks-blueprints/training/ddp/distributed-data-parallel',
-              label: 'Distributed Data Parallel',
+              to: '/docs/eks-orchestration/inference/inference-operator/amazon-s3-and-amazon-fsx',
+              label: 'Inference',
             },
             {
-              to: '/docs/eks-blueprints/training/fsdp/fully-sharded-data-parallel',
-              label: 'Fully Sharded Data Parallel',
+              to: '/docs/eks-orchestration/add-ons/hp-training-operator/overview',
+              label: 'Add-Ons',
             },
             {
-              to: '/docs/eks-blueprints/training/megatron-lm/megatron-lm-readme',
-              label: 'NVIDIA Megatron LM',
+              to: '/docs/eks-orchestration/integrations/skypilot/SkyPilot',
+              label: 'Integrations',
             },
             {
-              to: '/docs/eks-blueprints/training/ray-train/ray-train-readme',
-              label: 'Ray Train',
+              to: '/docs/eks-orchestration/tips/ssm-login',
+              label: 'Tips & Best Practices',
             },
           ],
         },
         {
           type: 'dropdown',
-          label: 'Orchestrated by SLURM',
+          label: 'SLURM Orchestration',
           position: 'left',
           items: [
             {
-              to: '/docs/getting-started/orchestrated-by-slurm/initial-cluster-setup',
-              label: 'Initial cluster setup',
+              to: '/docs/slurm-orchestration/getting-started/initial-cluster-setup',
+              label: 'Getting Started',
             },
             {
-              to: '/docs/slurm-blueprints/training/trainium/Llama3-70B',
-              label: 'AWS Trainium',
+              to: '/docs/slurm-orchestration/training-and-fine-tuning/ddp/distributed-data-parallel',
+              label: 'Training & Fine-Tuning',
             },
             {
-              to: '/docs/slurm-blueprints/training/ddp/distributed-data-parallel',
-              label: 'Distributed Data Parallel',
+              to: '/docs/slurm-orchestration/add-ons/observability-slurm',
+              label: 'Add-Ons',
             },
             {
-              to: '/docs/slurm-blueprints/training/fsdp/fully-sharded-data-parallel',
-              label: 'Fully Sharded Data Parallel',
-            },
-            {
-              to: '/docs/slurm-blueprints/training/megatron-lm/megatron-lm-readme', 
-              label: 'NVIDIA Megatron LM',
+              to: '/docs/slurm-orchestration/tips/containers',
+              label: 'Tips & Best Practices',
             },
           ],
         },
         {
-          to: '/resources',
-          label: 'Useful links',
-          position: 'left'
+          type: 'dropdown',
+          label: 'Common Resources',
+          position: 'left',
+          items: [
+            {
+              to: '/docs/common/validation-and-testing/performance-testing/nccl-tests',
+              label: 'Validation & Testing',
+            },
+            {
+              to: '/docs/common/infrastructure-as-a-code/terraform/terraform',
+              label: 'Infrastructure as Code',
+            },
+            {
+              to: '/docs/common/add-ons-and-integration/MLFlow/MLFlow',
+              label: 'Add-Ons & Integrations',
+            },
+            {
+              to: '/docs/common/tips/link-fsx-to-S3',
+              label: 'Tips & Best Practices',
+            },
+            {
+              to: '/docs/common/troubleshooting-guide',
+              label: 'Troubleshooting',
+            },
+          ],
         },
         {
           href: 'https://github.com/awslabs/ai-on-sagemaker-hyperpod',

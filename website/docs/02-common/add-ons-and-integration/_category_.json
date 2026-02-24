@@ -1,0 +1,8 @@
+{
+  "label": "Add-Ons & Integrations",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Shared add-ons and integrations for both EKS and SLURM orchestrations"
+  }
+}
