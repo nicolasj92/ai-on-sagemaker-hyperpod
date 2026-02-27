@@ -3,7 +3,7 @@ title: "EFA and Network Stack Validation"
 sidebar_position: 2
 ---
 
-# EFA and Network Stack Validation
+# EFA and Network Stack Validation on Slurm
 
 This validation script checks the versions and configuration of the Elastic Fabric Adapter (EFA) network stack, including EFA installer, libfabric, AWS OFI NCCL, NCCL, and CUDA components. This is essential for ensuring optimal network performance in distributed training workloads.
 
@@ -19,18 +19,11 @@ The EFA validation performs the following checks:
 
 ## Prerequisites
 
-### For All Clusters
 - EFA-enabled instance types (p4d, p5, trn1, etc.)
 - EFA drivers installed on nodes
 - Python 3 with `prettytable` package
-
-### For Slurm Clusters
 - Access to compute nodes via `srun`
 - Shared filesystem for script distribution
-
-### For EKS Clusters
-- EFA device plugin deployed
-- Nodes with EFA interfaces configured
 
 ## EFA Version Validation Script
 
@@ -61,11 +54,9 @@ The `efa-versions.py` script provides:
 - **Container vs local version comparison**
 - **Detailed EFA interface configuration**
 
-## Usage Examples
+## Slurm Implementation
 
-### Slurm Implementation
-
-1. **Install dependencies and run validation**:
+### 1. Install dependencies and run validation
 
 ```bash
 # Install Python dependencies
@@ -81,7 +72,7 @@ srun python3 /fsx/efa-versions.py --detailed
 srun python3 /fsx/efa-versions.py -c your-training-container:latest
 ```
 
-2. **Create Slurm job for systematic validation**:
+### 2. Create Slurm job for systematic validation
 
 ```bash
 #!/bin/bash
@@ -103,58 +94,6 @@ srun fi_info -p efa -t FI_EP_RDM
 # Check EFA bandwidth
 echo -e "\nEFA Interface Details..."
 srun ibv_devinfo
-```
-
-### EKS Implementation
-
-1. **Create validation job**:
-
-```yaml
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: efa-validation
-spec:
-  template:
-    spec:
-      restartPolicy: Never
-      nodeSelector:
-        node.kubernetes.io/instance-type: "p5.48xlarge"
-      containers:
-      - name: efa-validator
-        image: ubuntu:22.04
-        command: ["/bin/bash"]
-        args:
-        - -c
-        - |
-          apt-get update && apt-get install -y python3 python3-pip
-          pip3 install prettytable
-          python3 /scripts/efa-versions.py --detailed
-        resources:
-          limits:
-            vpc.amazonaws.com/efa: 32
-          requests:
-            vpc.amazonaws.com/efa: 32
-        volumeMounts:
-        - name: efa-script
-          mountPath: /scripts
-      volumes:
-      - name: efa-script
-        configMap:
-          name: efa-validation-script
-```
-
-2. **Deploy and run**:
-
-```bash
-# Create ConfigMap with script
-kubectl create configmap efa-validation-script --from-file=efa-versions.py
-
-# Apply job
-kubectl apply -f efa-validation-job.yaml
-
-# Check results
-kubectl logs -l job-name=efa-validation
 ```
 
 ## Expected Output
@@ -231,4 +170,3 @@ Based on validation results:
 1. **For P5 instances**: Use EFA installer 1.31.0+ with AWS OFI NCCL v1.8.1+
 2. **For P4d instances**: EFA installer 1.29.1+ is sufficient
 3. **For Trainium**: Ensure Neuron SDK compatibility with EFA versions
-

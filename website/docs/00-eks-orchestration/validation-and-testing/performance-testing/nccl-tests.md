@@ -3,7 +3,7 @@ title: "NCCL Performance Tests"
 sidebar_position: 1
 ---
 
-# NCCL Performance Tests
+# NCCL Performance Tests on EKS
 
 The [NCCL Tests](https://github.com/NVIDIA/nccl-tests) are a comprehensive testing suite that evaluates network performance between GPU instances using the NVIDIA Collective Communication Library. This is essential for validating cluster performance and troubleshooting issues before starting distributed training workloads.
 
@@ -26,13 +26,6 @@ Network performance varies by instance type:
 
 ## Prerequisites
 
-### For Slurm Clusters
-- Functional Slurm cluster with GPU nodes
-- Docker, [Pyxis](https://github.com/NVIDIA/pyxis) and [Enroot](https://github.com/NVIDIA/enroot) installed
-- Shared filesystem mounted (typically `/fsx`)
-- EFA drivers and AWS OFI NCCL installed
-
-### For EKS Clusters
 - Functional EKS cluster with GPU nodes
 - NVIDIA device plugin deployed
 - EFA device plugin deployed  
@@ -49,12 +42,6 @@ The NCCL tests are available in the [awsome-distributed-training repository](htt
 # Clone the repository
 git clone https://github.com/aws-samples/awsome-distributed-training.git
 cd awsome-distributed-training/micro-benchmarks/nccl-tests
-
-# Available resources:
-# - nccl-tests.Dockerfile: Container build file
-# - slurm/: Slurm job scripts
-# - kubernetes/: Kubernetes manifests
-# - README.md: Detailed instructions
 ```
 
 ### Container Build Configuration
@@ -68,63 +55,6 @@ The repository includes a comprehensive [NCCL-TESTS Dockerfile](https://github.c
 | `AWS_OFI_NCCL_VERSION` | v1.16.3 | AWS OFI NCCL version |
 | `NCCL_VERSION` | v2.27.7-1 | NCCL version |
 | `NCCL_TESTS_VERSION` | v2.16.9 | NCCL Tests version |
-
-## Slurm Implementation
-
-### 1. Build and Prepare Container
-
-```bash
-# Build container
-docker build -t nccl-tests:${TAG} -f nccl-tests.Dockerfile \
-    --build-arg="EFA_INSTALLER_VERSION=${EFA_INSTALLER_VERSION}" \
-    --build-arg="AWS_OFI_NCCL_VERSION=${AWS_OFI_NCCL_VERSION}" \
-    --build-arg="NCCL_VERSION=${NCCL_VERSION}" \
-    --build-arg="NCCL_TESTS_VERSION=${NCCL_TESTS_VERSION}" \
-    .
-
-# Convert to Enroot format
-enroot import -o /fsx/nccl-tests.sqsh dockerd://nccl-tests:${TAG}
-```
-
-### 2. Use Provided Slurm Job Scripts
-
-The repository includes ready-to-use Slurm job scripts:
-
-- **[`slurm/nccl-tests-container.sbatch`](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/nccl-tests-container.sbatch)**: NCCL test using container
-- **[`slurm/nccl-tests-ami.sbatch`](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/nccl-tests-ami.sbatch)**: Uses pre-installed NCCL from Deep Learning AMI
-
-For advanced topology-aware testing:
-- **[`slurm/topology-aware-nccl-tests/`](https://github.com/aws-samples/awsome-distributed-training/tree/main/micro-benchmarks/nccl-tests/slurm/topology-aware-nccl-tests)**: Advanced topology-aware NCCL tests with CSV export and automated submission scripts
-
-Key configuration options:
-- **Node count**: Modify `#SBATCH -N` parameter
-- **Container image**: Set `IMAGE` variable path (for container version)
-- **Test parameters**: Adjust `-b`, `-e`, `-f` flags for data size range
-
-### 3. Advanced Topology-Aware Testing
-
-For comprehensive testing with topology awareness and result analysis, use the topology-aware scripts:
-
-- **[`submit_nccl_test_container.sh`](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/topology-aware-nccl-tests/submit_nccl_test_container.sh)**: Automated submission script for container-based tests
-- **[`submit_nccl_test_ami.sh`](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/topology-aware-nccl-tests/submit_nccl_test_ami.sh)**: Automated submission script for AMI-based tests
-- **[`process_nccl_results.sh`](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/topology-aware-nccl-tests/process_nccl_results.sh)**: Results processing and CSV export
-
-### 4. Run Tests
-
-```bash
-# Navigate to the NCCL tests directory
-cd awsome-distributed-training/micro-benchmarks/nccl-tests/slurm
-
-# Basic container test
-sbatch nccl-tests-container.sbatch
-
-# Basic AMI test  
-sbatch nccl-tests-ami.sbatch
-
-# Advanced topology-aware testing
-cd topology-aware-nccl-tests
-./submit_nccl_test_container.sh  # Follow prompts for configuration
-```
 
 ## EKS Implementation
 
@@ -199,27 +129,7 @@ kubectl delete mpijob nccl-tests
 | p5.48xlarge   | ~400+ GB/s          | ~230+ GB/s       |
 | p6e.48xlarge  | ~400+ GB/s          | ~250+ GB/s       |
 
-## Troubleshooting and Diagnostics
-
-### Bad Node Detection
-
-1. **Run pairwise tests**:
-```bash
-# Test specific node pairs
-sbatch -w node1,node2 nccl-tests.sbatch
-sbatch -w node1,node3 nccl-tests.sbatch
-```
-
-2. **Check for failed jobs**:
-```bash
-sacct --format "JobID,JobName,State,ExitCode,NodeList"
-```
-
-3. **Isolate problematic nodes**:
-```bash
-# Test suspected bad node against known good node
-sbatch -w suspected-bad-node,known-good-node nccl-tests.sbatch
-```
+## Troubleshooting
 
 ### Common Issues and Solutions
 
@@ -257,32 +167,3 @@ export FI_EFA_FORK_SAFE=1
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 ```
-
-## Result Analysis and Processing
-
-The repository includes tools for analyzing NCCL test results:
-
-- **[`nccl_to_csv.py`](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/nccl_to_csv.py)**: Convert NCCL test output to CSV format
-- **[`process_nccl_results.sh`](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/topology-aware-nccl-tests/process_nccl_results.sh)**: Comprehensive result processing script
-
-### Usage Example
-
-```bash
-# Run NCCL test and process results
-sbatch nccl-tests-container.sbatch
-
-# Convert output to CSV (after job completes)
-python3 nccl_to_csv.py slurm-<job-id>.out > nccl_results.csv
-
-# For topology-aware tests, use the automated processing
-cd topology-aware-nccl-tests
-./process_nccl_results.sh
-```
-
-## Next Steps
-
-After successful NCCL testing:
-1. Proceed to [GPU stress testing](./gpu-stress-testing.md)
-2. Run [Trainium NCCOM tests](./nccom-tests.md) if using Trainium instances
-3. Set up continuous monitoring for ongoing performance validation
-4. Begin distributed training workloads with EKS or SLURM with confidence

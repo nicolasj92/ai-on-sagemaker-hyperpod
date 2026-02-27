@@ -3,7 +3,7 @@ title: "NCCOM Tests (Trainium)"
 sidebar_position: 3
 ---
 
-# NCCOM Tests for Trainium Instances
+# NCCOM Tests for Trainium on Slurm
 
 [nccom-test](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/tools/neuron-sys-tools/nccom-test.html) is a benchmarking tool for evaluating the performance of Collective Communication operations on Trainium instances (trn1 and inf2). It provides a fast way to validate your Neuron environment before running complex distributed training workloads.
 
@@ -26,40 +26,10 @@ NCCOM Tests provide:
 
 ## Prerequisites
 
-### For Slurm Clusters
 - Trainium instances (trn1.32xlarge, trn1n.32xlarge)
 - Neuron SDK installed and configured
 - Shared filesystem for coordination
 - EFA drivers for multi-node communication
-
-### For EKS Clusters
-- Trainium node groups configured
-- Neuron device plugin deployed
-- EFA device plugin deployed
-- Neuron SDK container images
-
-## Understanding NCCOM Output
-
-### Output Metrics
-
-| Column | Description |
-|--------|-------------|
-| **size (B)** | Data size in bytes for the operation |
-| **count (elems)** | Number of elements processed |
-| **type** | Data type (uint8, fp16, bf16, fp32, etc.) |
-| **time (us)** | P50 duration in microseconds |
-| **algbw (GB/s)** | Algorithm bandwidth (size/time) |
-| **busbw (GB/s)** | Bus bandwidth (independent of rank count) |
-| **Avg bus bandwidth** | Average bus bandwidth across all sizes |
-
-### Performance Expectations
-
-For trn1.32xlarge instances:
-- **Single node**: ~400-500 GB/s bus bandwidth
-- **Multi-node**: ~300-400 GB/s depending on operation
-- **Latency**: < 100 microseconds for small messages
-
-## Slurm Implementation
 
 ## Slurm Implementation
 
@@ -111,35 +81,45 @@ sed -i 's/CC_OPS=all_gather/CC_OPS=reduce_scatter/' nccom-tests.sbatch
 sbatch nccom-tests.sbatch
 ```
 
-## EKS Implementation
+### Testing Multiple Operations
 
-### No Pre-built Kubernetes Manifests
-
-For EKS deployments, you'll need to create your own Job or MPIJob manifests based on the Slurm script configuration.
-
-### Key Configuration for EKS
-
-When creating Kubernetes manifests, use these settings from the Slurm script:
-- **Container image**: Use Neuron-enabled PyTorch containers
-- **Resource requests**: `aws.amazon.com/neuroncore: 32` and `vpc.amazonaws.com/efa: 8`
-- **Environment variables**: `NEURON_RT_NUM_CORES=32`, `FI_PROVIDER=efa`
-- **Command**: Use the same `nccom-test` command structure from the Slurm script
-
-### Simple EKS Test
-
-For a basic single-node test on EKS:
+To test different collective operations systematically:
 
 ```bash
-kubectl run nccom-test \
-  --image=763104351884.dkr.ecr.us-east-1.amazonaws.com/pytorch-training-neuronx:2.1.2-neuronx-py310-sdk2.20.0-ubuntu20.04 \
-  --restart=Never \
-  --rm -it \
-  -- nccom-test all_reduce -r 32 -b 1M -e 64M -f 2 -n 20 -d fp32
+# Test different operations
+for op in all_reduce all_gather reduce_scatter alltoall; do
+    # Copy and modify the script for each operation
+    cp nccom-tests.sbatch nccom-${op}.sbatch
+    sed -i "s/CC_OPS=all_reduce/CC_OPS=${op}/" nccom-${op}.sbatch
+    sed -i "s/job-name=nccom-all_reduce_perf/job-name=nccom-${op}/" nccom-${op}.sbatch
+    
+    # Submit the job
+    sbatch nccom-${op}.sbatch
+done
 ```
 
-## Sample Output and Analysis
+## Understanding NCCOM Output
 
-### Expected Output Format
+### Output Metrics
+
+| Column | Description |
+|--------|-------------|
+| **size (B)** | Data size in bytes for the operation |
+| **count (elems)** | Number of elements processed |
+| **type** | Data type (uint8, fp16, bf16, fp32, etc.) |
+| **time (us)** | P50 duration in microseconds |
+| **algbw (GB/s)** | Algorithm bandwidth (size/time) |
+| **busbw (GB/s)** | Bus bandwidth (independent of rank count) |
+| **Avg bus bandwidth** | Average bus bandwidth across all sizes |
+
+### Performance Expectations
+
+For trn1.32xlarge instances:
+- **Single node**: ~400-500 GB/s bus bandwidth
+- **Multi-node**: ~300-400 GB/s depending on operation
+- **Latency**: < 100 microseconds for small messages
+
+### Sample Output
 
 ```
 nccom-test all_reduce -r 32 -b 1M -e 32M -f 2 -n 20 -d fp32
@@ -154,19 +134,6 @@ size(B)    count(elems)  type    time(us)   algbw(GB/s)  busbw(GB/s)
 
 Avg bus bandwidth: 18.37 GB/s
 ```
-
-### Performance Analysis
-
-1. **Good Performance Indicators**:
-   - Bus bandwidth > 15 GB/s for single node
-   - Bus bandwidth > 10 GB/s for multi-node
-   - Consistent performance across data sizes
-   - No errors or timeouts
-
-2. **Performance Issues**:
-   - Bus bandwidth < 10 GB/s
-   - High variance in timing
-   - Errors or failed operations
 
 ## Troubleshooting
 
@@ -217,25 +184,3 @@ export NEURON_FUSE_SOFTMAX=1
    - Use `bf16` for training workloads
    - Use `fp32` for accuracy-critical operations
    - Use `fp16` for inference workloads
-
-3. **Batch Size Optimization**:
-   - Test different data sizes to find optimal performance
-   - Larger sizes generally show better bandwidth utilization
-
-## Testing Multiple Operations
-
-To test different collective operations systematically, you can modify and resubmit the provided script:
-
-```bash
-# Test different operations
-for op in all_reduce all_gather reduce_scatter alltoall; do
-    # Copy and modify the script for each operation
-    cp nccom-tests.sbatch nccom-${op}.sbatch
-    sed -i "s/CC_OPS=all_reduce/CC_OPS=${op}/" nccom-${op}.sbatch
-    sed -i "s/job-name=nccom-all_reduce_perf/job-name=nccom-${op}/" nccom-${op}.sbatch
-    
-    # Submit the job
-    sbatch nccom-${op}.sbatch
-done
-```
-

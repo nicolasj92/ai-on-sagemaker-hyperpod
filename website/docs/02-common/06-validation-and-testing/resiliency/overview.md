@@ -5,6 +5,12 @@ sidebar_position: 1
 
 # SageMaker HyperPod Resiliency Overview
 
+:::info Orchestrator-Specific Guides
+For testing and validating resiliency on your cluster, see:
+- [Testing Resiliency with HyperPod EKS](/docs/eks-orchestration/validation-and-testing/resiliency/eks-resiliency)
+- [Testing Resiliency with HyperPod Slurm](/docs/slurm-orchestration/validation-and-testing/resiliency/slurm-resiliency)
+:::
+
 SageMaker HyperPod is built for [resilient training](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpos-resiliency.html) with comprehensive health monitoring and automatic recovery capabilities. This section provides an overview of the resiliency features that apply to both HyperPod EKS and HyperPod Slurm orchestrators.
 
 ## Health Monitoring Agent
@@ -146,34 +152,3 @@ Automatic node recovery is triggered by:
 - Health-monitoring agent detections
 - Basic health check failures  
 - Deep health check failures
-
-## Kubernetes Labels for Resiliency (EKS Only)
-
-SageMaker HyperPod uses Kubernetes labels to track node health status and deep health check progress.
-
-### Node Health Status Labels
-
-| **Label** | **Description** |
-|-----------|-----------------|
-| `sagemaker.amazonaws.com/node-health-status: Schedulable` | Node passed basic health checks and is available for workloads |
-| `sagemaker.amazonaws.com/node-health-status: Unschedulable` | Node is running deep health checks and unavailable for workloads |
-| `sagemaker.amazonaws.com/node-health-status: UnschedulablePendingReplacement` | Node failed checks and requires replacement |
-| `sagemaker.amazonaws.com/node-health-status: UnschedulablePendingReboot` | Node failed checks and requires reboot |
-
-### Deep Health Check Labels
-
-| **Label** | **Description** |
-|-----------|-----------------|
-| `sagemaker.amazonaws.com/deep-health-check-status: InProgress` | Node is running deep health checks |
-| `sagemaker.amazonaws.com/deep-health-check-status: Passed` | Node successfully completed all health checks |
-| `sagemaker.amazonaws.com/deep-health-check-status: Failed` | Node failed health checks and requires recovery |
-
-### Fault Type and Reason Labels
-
-- **fault-type labels**: Represent high-level fault categories when health checks fail
-- **fault-reason labels**: Represent detailed fault reasons associated with a fault-type
-
-## Next Steps
-
-- [Testing Resiliency with HyperPod EKS](./eks-resiliency.md) - Learn how to test and validate resiliency features in EKS-orchestrated clusters
-- [Testing Resiliency with HyperPod Slurm](./slurm-resiliency.md) - Learn how to test and validate resiliency features in Slurm-orchestrated clusters

@@ -5,6 +5,10 @@ sidebar_position: 3
 
 # Testing Resiliency with HyperPod Slurm
 
+:::tip Common Information
+For an overview of HyperPod resiliency features, health monitoring, and automatic node recovery, see the [Resiliency Overview](/docs/common/validation-and-testing/resiliency/overview).
+:::
+
 This guide demonstrates how to test and validate the resiliency features of SageMaker HyperPod when using Slurm as the orchestrator. You'll learn how to submit resilient training jobs, inject failures, monitor cluster recovery, and manually replace nodes.
 
 ## Test Case Overview

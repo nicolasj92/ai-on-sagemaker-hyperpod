@@ -3,7 +3,7 @@ title: "PyTorch Environment Validation"
 sidebar_position: 1
 ---
 
-# PyTorch Environment Validation
+# PyTorch Environment Validation on Slurm
 
 This validation script runs a comprehensive PyTorch environment check to screen for NCCL, MPI, OpenMP, CUDA, and other critical components on your HyperPod cluster. The script executes once per instance and helps verify that your environment is properly configured for distributed training.
 
@@ -18,21 +18,12 @@ The PyTorch environment validation performs the following checks:
 
 ## Prerequisites
 
-### For Slurm Clusters
 - Functional Slurm cluster on AWS
 - Docker, [Pyxis](https://github.com/NVIDIA/pyxis) and [Enroot](https://github.com/NVIDIA/enroot) installed
 - Shared directory mounted (typically `/fsx` or `/apps`)
 - AWS Deep Learning Container access
 
-### For EKS Clusters
-- Functional EKS cluster with GPU nodes
-- NVIDIA device plugin deployed
-- Container registry access (ECR or public registries)
-- kubectl configured for cluster access
-
-## Slurm Implementation
-
-### 1. Get the Validation Scripts
+## Get the Validation Scripts
 
 The PyTorch validation scripts are available in the [awsome-distributed-training repository](https://github.com/aws-samples/awsome-distributed-training/tree/main/4.validation_and_observability/1.pytorch-env-validation).
 
@@ -41,6 +32,7 @@ The PyTorch validation scripts are available in the [awsome-distributed-training
 git clone https://github.com/aws-samples/awsome-distributed-training.git
 cd awsome-distributed-training/4.validation_and_observability/1.pytorch-env-validation
 ```
+
 Available files:
 - [pytorch-screen.py](https://github.com/aws-samples/awsome-distributed-training/blob/main/4.validation_and_observability/1.pytorch-env-validation/pytorch-screen.py): Main validation script
 - [1.torch-screen.sbatch](https://github.com/aws-samples/awsome-distributed-training/blob/main/4.validation_and_observability/1.pytorch-env-validation/1.torch-screen.sbatch): Slurm job script
@@ -55,6 +47,8 @@ The `pytorch-screen.py` script provides comprehensive validation of:
 - **Distributed training capabilities** (NCCL, MPI)
 - **Backend availability** (MKL, OpenMP, opt_einsum)
 - **Environment variable validation**
+
+## Slurm Implementation
 
 ### 1. Build the Validation Container
 
@@ -81,7 +75,7 @@ docker build -t pytorch-validation -f 0.pytorch-screen.Dockerfile \
 enroot import -o /fsx/pytorch-validation.sqsh dockerd://pytorch-validation:latest
 ```
 
-### 3. Use the Provided Slurm Job Script
+### 2. Use the Provided Slurm Job Script
 
 The repository includes a ready-to-use Slurm job script at [`1.torch-screen.sbatch`](https://github.com/aws-samples/awsome-distributed-training/blob/main/4.validation_and_observability/1.pytorch-env-validation/1.torch-screen.sbatch).
 
@@ -90,7 +84,7 @@ Key configuration options in the script:
 - **Container image**: Set `IMAGE` variable to your container path
 - **Shared filesystem**: Configure `FSX_MOUNT` for your setup
 
-### 4. Run the Validation
+### 3. Run the Validation
 
 ```bash
 # Submit the job
@@ -98,69 +92,6 @@ sbatch pytorch-validation.sbatch
 
 # Monitor the output
 tail -f slurm-<job-id>.out
-```
-
-## EKS Implementation
-
-### 1. Create Kubernetes Job Manifest
-
-Since there's no pre-built Kubernetes manifest in the awsome-distributed-training repository for PyTorch validation, you can create a simple Job manifest:
-
-```bash
-# Create ConfigMap with the validation script
-kubectl create configmap pytorch-validation-script \
-  --from-file=pytorch-screen.py
-
-# Create a basic Job manifest
-cat <<EOF | kubectl apply -f -
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: pytorch-validation
-  namespace: default
-spec:
-  parallelism: 2
-  completions: 2
-  template:
-    spec:
-      restartPolicy: Never
-      nodeSelector:
-        node.kubernetes.io/instance-type: "p5.48xlarge"
-      containers:
-      - name: pytorch-validation
-        image: <YOUR_BUILT_CONTAINER_IMAGE>
-        command: ["/bin/bash"]
-        args:
-        - -c
-        - |
-          echo "Node: \$(hostname)"
-          nvidia-smi
-          python /workspace/pytorch-screen.py
-        resources:
-          limits:
-            nvidia.com/gpu: 8
-            vpc.amazonaws.com/efa: 32
-          requests:
-            nvidia.com/gpu: 8
-            vpc.amazonaws.com/efa: 32
-        volumeMounts:
-        - name: validation-script
-          mountPath: /workspace
-      volumes:
-      - name: validation-script
-        configMap:
-          name: pytorch-validation-script
-EOF
-```
-
-### 2. Monitor and View Results
-
-```bash
-# Monitor the job
-kubectl get jobs -w
-
-# View logs
-kubectl logs -l job-name=pytorch-validation
 ```
 
 ## Expected Output
@@ -209,10 +140,9 @@ Environment validation finished successfully!
 
 2. **NCCL not available**
    - Verify NCCL installation in container
-   - Check EFA device plugin deployment (EKS)
    - Validate network configuration
 
-3. **Container mount issues (Slurm)**
+3. **Container mount issues**
    - Verify Enroot/Pyxis installation
    - Check shared filesystem permissions
    - Ensure squash file is accessible
@@ -225,4 +155,3 @@ Environment validation finished successfully!
 - ✅ EFA devices are accessible (if using EFA-enabled instances)
 - ✅ Container can access shared storage
 - ✅ Environment variables are properly set
-

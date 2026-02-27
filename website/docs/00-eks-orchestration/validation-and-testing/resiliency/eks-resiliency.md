@@ -5,7 +5,37 @@ sidebar_position: 2
 
 # Testing Resiliency with HyperPod EKS
 
+:::tip Common Information
+For an overview of HyperPod resiliency features, health monitoring, and automatic node recovery, see the [Resiliency Overview](/docs/common/validation-and-testing/resiliency/overview).
+:::
+
 This guide demonstrates how to test and validate the resiliency features of SageMaker HyperPod when using EKS as the orchestrator. You'll learn how to monitor node health, manually trigger node replacement/reboot, simulate failures, and test job auto-resume functionality.
+
+## Kubernetes Labels for Resiliency
+
+SageMaker HyperPod uses Kubernetes labels to track node health status and deep health check progress.
+
+### Node Health Status Labels
+
+| **Label** | **Description** |
+|-----------|-----------------|
+| `sagemaker.amazonaws.com/node-health-status: Schedulable` | Node passed basic health checks and is available for workloads |
+| `sagemaker.amazonaws.com/node-health-status: Unschedulable` | Node is running deep health checks and unavailable for workloads |
+| `sagemaker.amazonaws.com/node-health-status: UnschedulablePendingReplacement` | Node failed checks and requires replacement |
+| `sagemaker.amazonaws.com/node-health-status: UnschedulablePendingReboot` | Node failed checks and requires reboot |
+
+### Deep Health Check Labels
+
+| **Label** | **Description** |
+|-----------|-----------------|
+| `sagemaker.amazonaws.com/deep-health-check-status: InProgress` | Node is running deep health checks |
+| `sagemaker.amazonaws.com/deep-health-check-status: Passed` | Node successfully completed all health checks |
+| `sagemaker.amazonaws.com/deep-health-check-status: Failed` | Node failed health checks and requires recovery |
+
+### Fault Type and Reason Labels
+
+- **fault-type labels**: Represent high-level fault categories when health checks fail
+- **fault-reason labels**: Represent detailed fault reasons associated with a fault-type
 
 
 

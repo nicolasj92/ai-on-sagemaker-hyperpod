@@ -116,28 +116,32 @@ const config: Config = {
           position: 'left',
           items: [
             {
-              to: '/docs/eks-orchestration/getting-started/initial-cluster-setup',
+              to: '/docs/eks-orchestration/getting-started/',
               label: 'Getting Started',
             },
             {
-              to: '/docs/eks-orchestration/training-and-fine-tuning/ddp/distributed-data-parallel',
+              to: '/docs/category/training-and-fine-tuning',
               label: 'Training & Fine-Tuning',
             },
             {
-              to: '/docs/eks-orchestration/inference/inference-operator/amazon-s3-and-amazon-fsx',
+              to: '/docs/category/inference',
               label: 'Inference',
             },
             {
-              to: '/docs/eks-orchestration/add-ons/hp-training-operator/overview',
+              to: '/docs/category/add-ons',
               label: 'Add-Ons',
             },
             {
-              to: '/docs/eks-orchestration/integrations/skypilot/SkyPilot',
+              to: '/docs/category/integrations',
               label: 'Integrations',
             },
             {
-              to: '/docs/eks-orchestration/tips/ssm-login',
+              to: '/docs/category/tips',
               label: 'Tips & Best Practices',
+            },
+            {
+              to: '/docs/category/validation-and-testing',
+              label: 'Validation and Testing',
             },
           ],
         },
@@ -147,20 +151,24 @@ const config: Config = {
           position: 'left',
           items: [
             {
-              to: '/docs/slurm-orchestration/getting-started/initial-cluster-setup',
+              to: '/docs/slurm-orchestration/getting-started/',
               label: 'Getting Started',
             },
             {
-              to: '/docs/slurm-orchestration/training-and-fine-tuning/ddp/distributed-data-parallel',
+              to: '/docs/category/training-and-fine-tuning-1',
               label: 'Training & Fine-Tuning',
             },
             {
-              to: '/docs/slurm-orchestration/add-ons/observability-slurm',
+              to: '/docs/category/add-ons-1',
               label: 'Add-Ons',
             },
             {
-              to: '/docs/slurm-orchestration/tips/containers',
+              to: '/docs/category/tips-1',
               label: 'Tips & Best Practices',
+            },
+            {
+              to: '/docs/category/validation-and-testing-1',
+              label: 'Validation and Testing',
             },
           ],
         },
@@ -170,24 +178,20 @@ const config: Config = {
           position: 'left',
           items: [
             {
-              to: '/docs/common/validation-and-testing/performance-testing/nccl-tests',
-              label: 'Validation & Testing',
+              to: '/docs/common/troubleshooting-guide',
+              label: 'Troubleshooting Guide',
             },
             {
-              to: '/docs/common/infrastructure-as-a-code/terraform/terraform',
-              label: 'Infrastructure as Code',
-            },
-            {
-              to: '/docs/common/add-ons-and-integration/MLFlow/MLFlow',
-              label: 'Add-Ons & Integrations',
-            },
-            {
-              to: '/docs/common/tips/link-fsx-to-S3',
+              to: '/docs/category/tips--best-practices-2',
               label: 'Tips & Best Practices',
             },
             {
-              to: '/docs/common/troubleshooting-guide',
-              label: 'Troubleshooting',
+              to: '/docs/category/validation-and-testing-2',
+              label: 'Validation and Testing',
+            },
+            {
+              to: '/docs/category/infrastructure-as-a-code',
+              label: 'Infrastructure as a Code',
             },
           ],
         },
