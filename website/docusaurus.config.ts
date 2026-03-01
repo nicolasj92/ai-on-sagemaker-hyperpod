@@ -210,11 +210,11 @@ const config: Config = {
           items: [
             {
               label: 'Orchestrated by EKS',
-              to: '/docs/getting-started/orchestrated-by-eks/initial-cluster-setup',
+              to: '/docs/eks-orchestration/getting-started/',
             },
             {
               label: 'Orchestrated by SLURM',
-              to: '/docs/getting-started/orchestrated-by-slurm/initial-cluster-setup',
+              to: '/docs/slurm-orchestration/getting-started/',
             },
           ],
         },
