@@ -1,8 +1,9 @@
 {
-  "label": "Tips & Best Practices",
+  "label": "Helpful Advice",
   "position": 4,
   "link": {
     "type": "generated-index",
+    "slug": "slurm-helpful-advice",
     "description": "SLURM-specific tips and best practices for SageMaker HyperPod"
   }
 }

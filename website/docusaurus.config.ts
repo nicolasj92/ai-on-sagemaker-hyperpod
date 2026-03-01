@@ -136,11 +136,11 @@ const config: Config = {
               label: 'Integrations',
             },
             {
-              to: '/docs/category/tips',
-              label: 'Tips & Best Practices',
+              to: '/docs/eks-helpful-advice',
+              label: 'Helpful Advice',
             },
             {
-              to: '/docs/category/validation-and-testing',
+              to: '/docs/eks-validation-and-testing',
               label: 'Validation and Testing',
             },
           ],
@@ -163,11 +163,11 @@ const config: Config = {
               label: 'Add-Ons',
             },
             {
-              to: '/docs/category/tips-1',
-              label: 'Tips & Best Practices',
+              to: '/docs/slurm-helpful-advice',
+              label: 'Helpful Advice',
             },
             {
-              to: '/docs/category/validation-and-testing-1',
+              to: '/docs/slurm-validation-and-testing',
               label: 'Validation and Testing',
             },
           ],
@@ -182,11 +182,11 @@ const config: Config = {
               label: 'Troubleshooting Guide',
             },
             {
-              to: '/docs/category/tips--best-practices-2',
-              label: 'Tips & Best Practices',
+              to: '/docs/common-helpful-advice',
+              label: 'Helpful Advice',
             },
             {
-              to: '/docs/category/validation-and-testing-2',
+              to: '/docs/common-validation-and-testing',
               label: 'Validation and Testing',
             },
             {
