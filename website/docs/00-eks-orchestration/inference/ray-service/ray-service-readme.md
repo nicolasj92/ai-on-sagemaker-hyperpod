@@ -17,7 +17,7 @@ A Ray Serve manages these components:
 
 Before proceeding, ensure you have:
 - A functional HyperPod EKS cluster with GPU nodes
-- Ray cluster deployed (see [Ray Train documentation](../../training/ray-train/ray-train-readme.md))
+- Ray cluster deployed (see [Ray Train documentation](../../training-and-fine-tuning/ray-train/ray-train-readme))
 - Access to the aws-do-ray repository
 
   
@@ -146,7 +146,7 @@ If you are having issues port-forwarding, please run: `pkill -f "kubectl port-fo
 
 ### Option B: Deploy Load Balancer
 
-Before we can use an ingress object, we must deploy the Load Balancer Controller to the cluster. Please follow the instructions in the [Load Balancer Inference section](/docs/eks-orchestration/inference/load-balancer-inference/inference-with-loadbalancer.md), then return here to create the ingress object.
+Before we can use an ingress object, we must deploy the Load Balancer Controller to the cluster. Please follow the instructions in the [Load Balancer Inference section](/docs/eks-orchestration/inference/load-balancer-inference/inference-with-loadbalancer), then return here to create the ingress object.
 
   
 

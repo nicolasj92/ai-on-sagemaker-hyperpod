@@ -240,8 +240,8 @@ You should now be able to operate with the EKS cluster.
 
 ## Optional: Setup Hyperpod Task Governance and CloudWatch Observability
 
-1. For Hyperpod Task Governance, If not previously done, follow the steps in [Task Governance](/04-add-ons/Task%20Governance/Task%20Governance%20for%20Training.md)
-2. For CloudWatch Observability insights, if not done previously, follow the steps in [Container Insights](/04-add-ons/Observability/Container%20Insights/Container%20Insights.md)
+1. For Hyperpod Task Governance, If not previously done, follow the steps in [Task Governance](/docs/eks-orchestration/add-ons/Task%20Governance/Task%20Governance%20for%20Training)
+2. For CloudWatch Observability insights, if not done previously, follow the steps in [Container Insights](/docs/eks-orchestration/add-ons/Observability/Container%20Insights)
 
 Run the following command:
 

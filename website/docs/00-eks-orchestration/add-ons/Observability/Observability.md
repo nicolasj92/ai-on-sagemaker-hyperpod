@@ -16,6 +16,5 @@ In this section, we will specifically cover:
 
 1. [Container Insights in Amazon CloudWatch (EKS only)](/docs/eks-orchestration/add-ons/Observability/Container%20Insights)
 2. [AWS managed One-Click Observability with AMP and AMG (EKS only)](/docs/eks-orchestration/add-ons/Observability/one-click-observability-eks)
-3. [SageMaker Managed MLFlow](/docs/eks-orchestration/add-ons/Observability/MLFlow)
-4. [Weights & Biases](/docs/eks-orchestration/add-ons/Observability/Weights%20and%20Biases)
-5. [Observability with AMP and AMG (Slurm only)](/docs/eks-orchestration/add-ons/Observability/observability-slurm)
+3. [SageMaker Managed MLFlow](/docs/eks-orchestration/add-ons/MLFlow)
+4. [Observability with AMP and AMG (Slurm only)](/docs/slurm-orchestration/add-ons/observability-slurm)

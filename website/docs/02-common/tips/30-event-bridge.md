@@ -40,7 +40,7 @@ Click the button below to deploy the CloudFormation stack, which will install th
 #### 4. Verify
 
 Verify that you can receive notification emails by changing the cluster status (e.g., scaling up/down).
-You can also test node health notifications by triggering [manuall instance replacement](/docs/validation-and-testing/resiliency/eks-resiliency#1manual-replacement-or-reboot).
+You can also test node health notifications by triggering [manuall instance replacement](/docs/eks-orchestration/validation-and-testing/resiliency/eks-resiliency#1manual-replacement-or-reboot).
 
 ![Node Health Email](/img/11-tips/node-health-email.png)
 

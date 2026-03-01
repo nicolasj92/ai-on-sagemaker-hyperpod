@@ -280,5 +280,5 @@ Once your shared file system is set up:
 4. **Review the training blueprints** that leverage FSx for distributed training
 
 For advanced FSx configuration and management, see:
-- [Link FSx to S3](../../08-Tips/Common/12-link-fsx-to-S3.md)
-- [Mount additional FSx filesystems](../../08-Tips/Common/13-mount-additional-fsx.md)
+- [Link FSx to S3](/docs/common/tips/link-fsx-to-S3)
+- [Mount additional FSx filesystems](/docs/common/tips/mount-additional-fsx)

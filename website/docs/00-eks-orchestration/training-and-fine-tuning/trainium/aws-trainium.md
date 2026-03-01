@@ -37,7 +37,7 @@ git clone https://github.com/aws-samples/awsome-distributed-training/
 cd awsome-distributed-training/3.test_cases/pytorch/neuronx-distributed/llama3/kubernetes
 ```
 
-We will build docker image using the [Dockerfile](/docs/eks-orchestration/integrations/skypilot/SkyPilot) in this directory.  
+We will build docker image using the [Dockerfile](/docs/eks-orchestration/integrations/skypilot) in this directory.  
 
 ```sh
 export AWS_REGION=$(aws ec2 describe-availability-zones --output text --query 'AvailabilityZones[0].[RegionName]')

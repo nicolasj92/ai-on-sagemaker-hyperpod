@@ -283,7 +283,7 @@ The cluster update will take approx 15-20 minutes to complete. You can monitor p
 Once the new nodes are added to your cluster, ClusterStatus will change to "InService". Do not proceed with the following steps until ClusterStatus changes to 
 "InService". 
 
-1. Connect to the controller node of your cluster (for a reminder of these steps, see [ssh into cluster](/docs/slurm-orchestration/getting-started/ssh-into-hyperpod.mdx)):
+1. Connect to the controller node of your cluster (for a reminder of these steps, see [ssh into cluster](/docs/slurm-orchestration/getting-started/ssh-into-hyperpod)):
 ```bash
 # SSH into controller node 
 ./easy-ssh.sh -c controller-machine <YOUR CLUSTER NAME>

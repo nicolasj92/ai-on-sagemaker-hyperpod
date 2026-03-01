@@ -836,7 +836,7 @@ The slurmctld (Slurm Central Control Daemon) manages job scheduling, resource al
 6. Replace the node once new hardware is available
 
 **Detailed Guides**:
-- [GPU Stress Testing](./06-validation-and-testing/performance-testing/gpu-stress-testing)
+- [GPU Stress Testing](./validation-and-testing/performance-testing/gpu-stress-testing)
 
 ---
 
@@ -882,9 +882,9 @@ The slurmctld (Slurm Central Control Daemon) manages job scheduling, resource al
 8. Rebuild containers with compatible versions from the compatibility matrix
 
 **Detailed Guides**:
-- [PyTorch Environment Validation](./06-validation-and-testing/environment-validation/pytorch-environment-validation)
-- [EFA and Network Stack Validation](./06-validation-and-testing/environment-validation/efa-validation)
-- [Troubleshoot NCCL and CUDA](./06-validation-and-testing/nccl-cuda-validation/Troubleshoot%20NCCL%20and%20CUDA)
+- [PyTorch Environment Validation](/docs/eks-orchestration/validation-and-testing/environment-validation/pytorch-environment-validation)
+- [EFA and Network Stack Validation](/docs/eks-orchestration/validation-and-testing/environment-validation/efa-validation)
+- [Troubleshoot NCCL and CUDA](./validation-and-testing/nccl-cuda-validation/Troubleshoot%20NCCL%20and%20CUDA)
 
 ---
 
@@ -916,8 +916,8 @@ The slurmctld (Slurm Central Control Daemon) manages job scheduling, resource al
 5. Reduce batch size or adjust parallelism if memory pressure exists
 
 **Detailed Guides**:
-- [NCCL Performance Tests](./06-validation-and-testing/performance-testing/nccl-tests)
-- [Troubleshoot NCCL and CUDA](./06-validation-and-testing/nccl-cuda-validation/Troubleshoot%20NCCL%20and%20CUDA)
+- [NCCL Performance Tests](/docs/eks-orchestration/validation-and-testing/performance-testing/nccl-tests)
+- [Troubleshoot NCCL and CUDA](./validation-and-testing/nccl-cuda-validation/Troubleshoot%20NCCL%20and%20CUDA)
 
 ---
 
@@ -948,7 +948,7 @@ The slurmctld (Slurm Central Control Daemon) manages job scheduling, resource al
 5. Drain underperforming nodes and use placement groups for consistency
 
 **Detailed Guides**:
-- [NCCL Performance Tests](./06-validation-and-testing/performance-testing/nccl-tests)
+- [NCCL Performance Tests](/docs/eks-orchestration/validation-and-testing/performance-testing/nccl-tests)
 
 ---
 
@@ -1291,4 +1291,4 @@ If you continue to experience issues:
 - [AWS HyperPod Documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html)
 - [EKS Troubleshooting Guide](https://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
 - [Slurm Documentation](https://slurm.schedmd.com/documentation.html)
-- [NCCOM Tests for Trainium Instances](./06-validation-and-testing/performance-testing/nccom-tests)
+- [NCCOM Tests for Trainium Instances](/docs/eks-orchestration/validation-and-testing/performance-testing/nccom-tests)

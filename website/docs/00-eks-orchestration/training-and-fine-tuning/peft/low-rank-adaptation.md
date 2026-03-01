@@ -13,7 +13,7 @@ Before running this training, you'll need to create a SageMaker HyperPod cluster
 
 Please  make sure that you deploy Neuron device plugin, EFA device plugin, and Kubeflow training operator to your cluster. 
 
-See [What Dependencies are Installed on Your EKS Cluster](/docs/getting-started/install-pre-requisites) for details.
+See [What Dependencies are Installed on Your EKS Cluster](/docs/Introduction#prerequisites) for details.
 
 To build a container image, you need a x86-64 based development environment with Docker installed. If you use recent Mac with Apple Silicon, they are not x86-64 based but ARM based. You can use SageMaker Code Editor for this purpose.
 

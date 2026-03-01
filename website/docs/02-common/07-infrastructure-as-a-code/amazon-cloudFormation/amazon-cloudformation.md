@@ -7,7 +7,7 @@ sidebar_position: 2
 
 This guide covers deploying SageMaker HyperPod infrastructure using CloudFormation templates. CloudFormation templates are available for both EKS and Slurm orchestration types, providing Infrastructure as Code (IaC) solutions.
 
-When using the [recommended in-console cluster creation](/docs/eks-orchestration/getting-started/initial-cluster-setup.md) to deploy your HyperPod cluster, it will be using CloudFormation in the backend to deploy the resources. 
+When using the [recommended in-console cluster creation](/docs/eks-orchestration/getting-started/initial-cluster-setup) to deploy your HyperPod cluster, it will be using CloudFormation in the backend to deploy the resources. 
 
 **These CloudFormation templates are hosted in [`sagemaker-hyperpod-cluster-setup`](https://github.com/aws/sagemaker-hyperpod-cluster-setup/tree/main) GitHub Repository.** 
 

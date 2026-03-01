@@ -20,7 +20,7 @@ In this example, we'll:
 4. Observe job resumption from the last checkpoint
 
 :::note Prerequisites
-Before proceeding, ensure you've completed the [Megatron-LM](/docs/slurm-orchestration/training-and-fine-tuning/megatron-lm/megatron-lm-readme.md) setup for your HyperPod Slurm cluster.
+Before proceeding, ensure you've completed the [Megatron-LM](/docs/slurm-orchestration/training-and-fine-tuning/megatron-lm/megatron-lm-readme) setup for your HyperPod Slurm cluster.
 :::
 
 ## 1. Submit a Resilient Training Job
